@@ -15,7 +15,7 @@
         }
         header {
             padding: 40px 20px;
-            background: linear-gradient(180px, #1f2833, #0b0c10);
+            background: linear-gradient(180deg, #1f2833, #0b0c10);
         }
         h1 {
             color: #66fcf1; /* Cyan */
@@ -39,6 +39,7 @@
             padding: 30px;
             border: 2px solid #ff007f; /* Magenta border */
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            margin-bottom: 30px;
         }
         h2 {
             color: #fff;
@@ -57,22 +58,36 @@
         .features li {
             margin-bottom: 10px;
         }
+        .button-group {
+            margin-top: 25px;
+        }
         .btn {
             display: inline-block;
-            background-color: #66fcf1;
-            color: #0b0c10;
             padding: 15px 30px;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
             font-size: 1.2rem;
             transition: 0.3s;
-            margin-top: 20px;
+            margin: 10px;
         }
-        .btn:hover {
+        .btn-itch {
+            background-color: #66fcf1;
+            color: #0b0c10;
+        }
+        .btn-itch:hover {
             background-color: #ff007f;
             color: #fff;
             box-shadow: 0 0 15px #ff007f;
+        }
+        .btn-discord {
+            background-color: #5865F2; /* Discord Blurple */
+            color: #fff;
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+        }
+        .btn-discord:hover {
+            background-color: #4752C4;
+            box-shadow: 0 0 20px #5865F2;
         }
         footer {
             margin-top: 60px;
@@ -101,9 +116,13 @@
                 <li>💎 <strong>Mining Facility:</strong> Build a passive income engine using Auto-Miners and Refineries.</li>
             </ul>
 
-            <br>
-            <!-- Replace the href link below with your actual itch.io game link -->
-            <a href="https://share.google/bcPDayweYaRhljHkI" class="btn" target="_blank">PLAY ON ITCH.IO</a>
+            <div class="button-group">
+                <!-- Play Button -->
+                <a href="https://z3rr0-dev.itch.io/nebula-strike" class="btn btn-itch" target="_blank">PLAY ON ITCH.IO</a>
+                
+                <!-- Discord Button -->
+                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
+            </div>
         </div>
     </div>
 
