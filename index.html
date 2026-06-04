@@ -41,6 +41,11 @@
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
             margin-bottom: 30px;
         }
+        /* Custom styling modifier to give the 3D sequel card an extra glowing sci-fi pop */
+        .game-card.3d-edition {
+            border: 2px solid #00FF78; /* Neon Mint / Cyan hybrid glow */
+            box-shadow: 0 0 20px rgba(0, 255, 120, 0.15);
+        }
         h2 {
             color: #fff;
             font-size: 2rem;
@@ -80,6 +85,15 @@
             color: #fff;
             box-shadow: 0 0 15px #ff007f;
         }
+        .btn-itch-3d {
+            background-color: #00FF78;
+            color: #0b0c10;
+        }
+        .btn-itch-3d:hover {
+            background-color: #00e6ff;
+            color: #0b0c10;
+            box-shadow: 0 0 15px #00e6ff;
+        }
         .btn-discord {
             background-color: #5865F2; /* Discord Blurple */
             color: #fff;
@@ -105,6 +119,24 @@
     </header>
 
     <div class="container">
+        <div class="game-card 3d-edition">
+            <h2>NEBULA STRIKE 3D</h2>
+            <p><strong>Strap into the cockpit, pilot.</strong> The definitive 2.5D space arcade shooter from Z3RR0DEVGAMES is here! Navigate high-velocity hazard sectors, maintain intense point-multiplier combos, and control an active production dashboard terminal to unlock the ultimate galaxy fleet.</p>
+            
+            <ul class="features">
+                <li>🚀 <strong>Cinematic 2.5D Windshields:</strong> Pilot advanced spacecraft using a detailed, multi-layered cockpit overlay.</li>
+                <li>⚡ <strong>Plasma Clicker Refinery:</strong> Manage your industrial idle economy to passively fund your combat reserves.</li>
+                <li>🔐 <strong>Terminal System Overrides:</strong> Decrypt secret codes issued via community servers to claim hidden credit drops!</li>
+                <li>🛠️ **Upgraded Fleet Hangar:** Overhaul weapon components and deploy heavy gun arrays across modular hull variations.</li>
+            </ul>
+
+            <div class="button-group">
+                <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-itch-3d" target="_blank">PLAY NEBULA STRIKE 3D</a>
+                
+                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
+            </div>
+        </div>
+
         <div class="game-card">
             <h2>NEBULA STRIKE</h2>
             <p><strong>Prepare for deployment, pilot.</strong> Nebula Strike combines old-school, high-octane arcade action with a deep tactical progression system. Survive the cosmic onslaught, maximize your score combos, and build a mining empire to fund the ultimate starship fleet.</p>
@@ -117,10 +149,8 @@
             </ul>
 
             <div class="button-group">
-                <!-- Play Button -->
                 <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-itch" target="_blank">PLAY ON ITCH.IO</a>
                 
-                <!-- Discord Button -->
                 <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
             </div>
         </div>
