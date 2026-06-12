@@ -32,19 +32,30 @@
             margin: 0;
             padding: 0;
             line-height: 1.5;
+            -webkit-text-size-adjust: 100%; /* Prevents mobile font scaling anomalies */
         }
 
-        /* --- HEADER --- */
-        header {
+        /* --- CONTAINER BASELINE --- */
+        header, .search-wrapper, .category-section, footer {
             max-width: 1300px;
-            margin: 0 auto;
-            padding: 80px 40px 20px 40px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        /* --- MODERN HEADER CONFIG --- */
+        header {
+            padding-top: 60px;
+            padding-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         .header-main h1 {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             font-weight: 800;
             letter-spacing: -0.03em;
             margin: 0;
@@ -52,7 +63,7 @@
         }
         .header-main .subtitle {
             color: var(--text-secondary);
-            font-size: 1.05rem;
+            font-size: 1rem;
             margin-top: 6px;
             font-weight: 400;
         }
@@ -69,6 +80,7 @@
             font-weight: 600;
             color: var(--accent-cyan);
             letter-spacing: 0.05em;
+            white-space: nowrap;
         }
         .status-dot {
             width: 6px;
@@ -78,11 +90,10 @@
             box-shadow: 0 0 8px var(--accent-cyan);
         }
 
-        /* --- MODERN SEARCH WRAPPER --- */
+        /* --- SEARCH WRAPPER --- */
         .search-wrapper {
-            max-width: 1300px;
-            margin: 10px auto 30px auto;
-            padding: 0 40px;
+            margin-top: 10px;
+            margin-bottom: 25px;
         }
         .search-container {
             position: relative;
@@ -94,12 +105,13 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 12px 16px 12px 40px;
-            font-size: 0.95rem;
+            padding: 14px 16px 14px 44px;
+            font-size: 16px; /* Essential threshold rule to prevent auto-zooms on mobile layouts */
             color: var(--text-primary);
             font-family: inherit;
             box-sizing: border-box;
             backdrop-filter: blur(8px);
+            -webkit-appearance: none; /* Strips structural elements on iOS layout elements */
             transition: all 0.2s ease;
         }
         .search-input:focus {
@@ -111,10 +123,9 @@
         .search-input::placeholder {
             color: var(--accent-slate);
         }
-        /* Minimal CSS Search Icon Overlay */
         .search-icon {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             width: 14px;
@@ -134,12 +145,10 @@
             transform: rotate(45deg);
         }
 
-        /* --- CATEGORY SECTION SYSTEM --- */
+        /* --- CATEGORY LAYOUT ARCHITECTURE --- */
         .category-section {
-            max-width: 1300px;
-            margin: 20px auto 40px auto;
-            padding: 0 40px;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
         .category-title {
             color: var(--text-primary);
@@ -149,10 +158,10 @@
             text-transform: uppercase;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
         }
         .category-tag {
             font-size: 0.7rem;
@@ -163,38 +172,43 @@
             color: var(--text-secondary);
         }
         
-        /* --- RESPONSIVE GRID ENGINE --- */
+        /* --- HIGH PERFORMANCE FLEX MATRIX GRID ENGINE --- */
         .container {
             display: flex;
             flex-direction: row;
-            gap: 24px;
+            flex-wrap: wrap;
+            gap: 20px;
             justify-content: flex-start;
-            align-items: stretch; 
-            flex-wrap: wrap; /* Allows remaining cards to structure correctly if one is hidden */
+            align-items: stretch;
         }
 
-        /* --- MODERN CARD DESIGNS --- */
+        /* --- FLUID ECO-CARDS --- */
         .game-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
-            padding: 35px 30px;
-            flex: 1; 
-            min-width: 280px;
-            max-width: calc(33.333% - 16px);
+            padding: 30px 24px;
+            flex: 1 1 350px; /* Fluid wrapping engine: triggers collapse only below 350px device spaces */
+            max-width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, transform 0.2s ease;
+            justify-content: space-between;
+            box-sizing: border-box;
         }
 
-        .game-card:hover {
-            transform: translateY(-4px);
-            background-color: var(--bg-card-hover);
-            border-color: var(--border-hover);
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+        /* Enforce desktop-only hover behaviors to isolate tap anomalies on smartphones */
+        @media (hover: hover) {
+            .game-card:hover {
+                transform: translateY(-4px);
+                background-color: var(--bg-card-hover);
+                border-color: var(--border-hover);
+                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+            }
+            .btn-cyan:hover { background-color: #22d3ee; }
+            .btn-indigo:hover { background-color: #818cf8; }
+            .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
         }
 
         .card-meta {
@@ -202,17 +216,19 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 14px;
+            gap: 10px;
         }
         .meta-label {
             font-size: 0.75rem;
             font-family: monospace;
             color: var(--accent-slate);
             letter-spacing: 0.05em;
+            white-space: nowrap;
         }
 
         h2 {
             color: var(--text-primary);
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 700;
             margin: 0 0 12px 0;
             letter-spacing: -0.01em;
@@ -238,44 +254,37 @@
             font-weight: 500;
         }
 
-        /* --- BUTTONS --- */
+        /* --- TACTILE EXPANSION BUTTON MODULE --- */
         .button-group {
             margin-top: auto; 
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Horizontal alignment structure configuration */
             gap: 10px;
         }
         .btn {
+            flex: 1; /* Split button distribution spacing rule */
             display: block;
-            padding: 12px 18px;
+            padding: 14px 16px; /* Thickened surface density optimized specifically for human fingers */
             font-weight: 600;
             text-decoration: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             text-align: center;
-            transition: background-color 0.2s ease;
+            box-sizing: border-box;
+            transition: background-color 0.15s ease;
         }
         .btn-cyan {
             background-color: var(--accent-cyan);
             color: #000;
         }
-        .btn-cyan:hover {
-            background-color: #22d3ee;
-        }
         .btn-indigo {
             background-color: var(--accent-indigo);
             color: #fff;
-        }
-        .btn-indigo:hover {
-            background-color: #818cf8;
         }
         .btn-slate {
             background-color: rgba(255, 255, 255, 0.04);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
-        }
-        .btn-slate:hover {
-            background-color: rgba(255, 255, 255, 0.08);
         }
         
         .game-card.edition-tool {
@@ -283,60 +292,55 @@
             border: 1px dashed var(--border-color);
             backdrop-filter: blur(4px);
         }
-        .game-card.edition-tool:hover {
-            transform: none;
-            background-color: rgba(255, 255, 255, 0.01);
-            border-color: var(--border-color);
-            box-shadow: none;
-        }
 
-        /* No results indicator layout */
         #no-results-msg {
-            max-width: 1300px;
             margin: 40px auto;
-            padding: 0 40px;
             color: var(--text-secondary);
             font-size: 1rem;
             display: none;
         }
 
         footer {
-            max-width: 1300px;
-            margin: 120px auto 0 auto;
-            padding: 40px;
+            margin-top: 100px;
+            padding-top: 30px;
+            padding-bottom: 40px;
             font-size: 0.85rem;
             color: var(--text-secondary);
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
+            gap: 16px;
         }
 
-        /* --- MOBILE VIEWPORTS RULES --- */
-        @media (max-width: 1024px) { 
+        /* --- COMPACT RESPONSIVE BREAKPOINT CONTROLS --- */
+        @media (max-width: 767px) {
             header {
-                padding: 60px 24px 20px 24px;
-                flex-direction: column;
-                gap: 16px;
+                padding-top: 40px;
             }
-            .search-wrapper {
-                padding: 0 24px;
+            .header-main h1 {
+                font-size: 1.9rem;
             }
-            .category-section {
-                padding: 0 24px;
+            .button-group {
+                flex-direction: column; /* Reverts split rows safely back to thick stacks on thin layouts */
             }
-            .container {
-                flex-direction: column; 
-            }
-            .game-card {
-                flex: none;
-                max-width: 100%;
-                padding: 30px 24px;
+            .btn {
+                width: 100%;
             }
             footer {
-                margin-left: 24px;
-                margin-right: 24px;
                 flex-direction: column;
-                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        /* Rule safeguarding edge cases where screen configurations approach extreme boundaries */
+        @media (max-width: 400px) {
+            .game-card {
+                padding: 24px 16px;
+            }
+            .card-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
             }
         }
     </style>
@@ -354,18 +358,14 @@
         </div>
     </header>
 
-    <!-- NEW SEARCH INTERFACE COMPONENT -->
     <div class="search-wrapper">
         <div class="search-container">
             <div class="search-icon"></div>
             <input type="text" id="project-search" class="search-input" placeholder="Search systems, features, or engines...">
         </div>
+        <div id="no-results-msg">No engineering pipelines match your query.</div>
     </div>
 
-    <!-- Container message if everything is filtered out -->
-    <div id="no-results-msg">No engineering pipelines match your query.</div>
-
-    <!-- ================= CATEGORY 1: GAMES ================= -->
     <section class="category-section">
         <div class="category-title">
             <span>Interactive Media</span>
@@ -373,7 +373,6 @@
         </div>
         <div class="container">
             
-            <!-- NEBULA STRIKE 3D -->
             <div class="game-card">
                 <div>
                     <div class="card-meta">
@@ -391,12 +390,11 @@
                 </div>
 
                 <div class="button-group">
-                    <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-cyan" target="_blank">Launch Project (itch.io)</a>
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join the Discord</a>
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
 
-            <!-- NEBULA STRIKE -->
             <div class="game-card">
                 <div>
                     <div class="card-meta">
@@ -414,15 +412,14 @@
                 </div>
 
                 <div class="button-group">
-                    <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch Project (itch.io)</a>
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join the Discord</a>
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- ================= CATEGORY 2: APPLICATIONS ================= -->
     <section class="category-section">
         <div class="category-title">
             <span>Production Software</span>
@@ -430,7 +427,6 @@
         </div>
         <div class="container">
 
-            <!-- MOVIE PLAYER -->
             <div class="game-card">
                 <div>
                     <div class="card-meta">
@@ -449,15 +445,14 @@
                 </div>
 
                 <div class="button-group">
-                    <a href="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk" class="btn btn-indigo">Download Application Package (6.9 MB)</a>
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join the Discord</a>
+                    <a href="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk" class="btn btn-indigo">Download APK (6.9 MB)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- ================= CATEGORY 3: TOOLS ================= -->
     <section class="category-section">
         <div class="category-title">
             <span>Utility & Development Tools</span>
@@ -465,7 +460,6 @@
         </div>
         <div class="container">
 
-            <!-- INACTIVE PIPELINE WORKSPACE HOLDER -->
             <div class="game-card edition-tool">
                 <div>
                     <div class="card-meta">
@@ -474,9 +468,7 @@
                     <h2>Developer Tools</h2>
                     <p>Systems, build engines, and automated utilities are currently in standard pipeline development stages.</p>
                 </div>
-                <div class="button-group">
-                    <span class="btn" style="background-color: rgba(255,255,255,0.01); color: var(--accent-slate); border: 1px dashed rgba(255,255,255,0.04); cursor: not-allowed;">Pipeline Idle</span>
-                </div>
+                <div class="button-group" style="display: none;"></div>
             </div>
 
         </div>
@@ -487,7 +479,6 @@
         <div>System Status: Online</div>
     </footer>
 
-    <!-- --- LIGHTWEIGHT REAL-TIME SEARCH SCRIPT --- -->
     <script>
         document.getElementById('project-search').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
@@ -496,26 +487,20 @@
             let totalVisibleCards = 0;
 
             cards.forEach(card => {
-                // Read text contents from headings, body text, and specs lists
                 const cardText = card.textContent.toLowerCase();
                 
                 if (cardText.includes(query)) {
                     card.style.display = 'flex';
-                    card.style.opacity = '1';
-                    card.style.transform = 'scale(1)';
                     if (!card.classList.contains('edition-tool')) {
                         totalVisibleCards++;
                     }
                 } else {
                     card.style.display = 'none';
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.95)';
                 }
             });
 
-            // Clean up empty section wrappers dynamically
             sections.forEach(section => {
-                const visibleCardsInSection = section.querySelectorAll('.game-card[style*="display: flex"]');
+                const visibleCardsInSection = section.querySelectorAll('.game-card:not([style*="display: none"])');
                 if (visibleCardsInSection.length === 0) {
                     section.style.display = 'none';
                 } else {
@@ -523,7 +508,6 @@
                 }
             });
 
-            // Display a backup empty-state message if everything gets hidden
             const noResultsMsg = document.getElementById('no-results-msg');
             if (totalVisibleCards === 0 && query !== '') {
                 noResultsMsg.style.display = 'block';
