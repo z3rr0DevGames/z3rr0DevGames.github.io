@@ -6,10 +6,10 @@
     <title>Z3RR0_DEV.GAMES // Hub</title>
     <style>
         :root {
-            /* --- THEME MATRIX INDICES (DARK MODE DEFAULT) --- */
+            /* --- THEME DESIGN SYSTEM MATRIX --- */
             --bg-main: #07080a;
-            --bg-card: rgba(18, 20, 28, 0.65);
-            --bg-card-hover: rgba(23, 26, 36, 0.85);
+            --bg-card: #12141c;
+            --bg-card-hover: #171a24;
             --text-primary: #f3f4f6;
             --text-secondary: #9ca3af;
             --accent-cyan: #06b6d4;
@@ -18,14 +18,18 @@
             --border-color: rgba(255, 255, 255, 0.05);
             --border-hover: rgba(255, 255, 255, 0.12);
             --console-bg: #0d0f14;
-            --grid-opacity: 0.02;
+            --grid-green: #22c55e;
+            --grid-green-low: rgba(34, 197, 94, 0.2);
+            
+            /* Splash Element Extensions matching your attached asset colorway */
+            --logo-red: #dc2626;
+            --logo-red-glow: rgba(220, 38, 38, 0.35);
         }
 
-        /* --- LIGHT THEME AMENDMENT OVERRIDES --- */
         body.light-theme {
             --bg-main: #f8fafc;
-            --bg-card: rgba(255, 255, 255, 0.8);
-            --bg-card-hover: rgba(241, 245, 249, 0.95);
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
             --text-primary: #0f172a;
             --text-secondary: #475569;
             --accent-cyan: #0891b2;
@@ -34,27 +38,108 @@
             --border-color: rgba(15, 23, 42, 0.08);
             --border-hover: rgba(15, 23, 42, 0.18);
             --console-bg: #e2e8f0;
-            --grid-opacity: 0.04;
+            --grid-green: #16a34a;
+            --grid-green-low: rgba(22, 163, 74, 0.15);
         }
 
+        /* --- PREVENT SCROLL UNTIL BOOT FINISHES --- */
         body {
             background-color: var(--bg-main);
             background-image: 
-                linear-gradient(rgba(6, 182, 212, var(--grid-opacity)) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, var(--grid-opacity)) 1px, transparent 1px),
-                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 50%);
-            background-size: 40px 40px, 40px 40px, 100% 100%;
-            background-attachment: fixed;
+                linear-gradient(rgba(6, 182, 212, 0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.012) 1px, transparent 1px);
+            background-size: 40px 40px;
             color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 0;
             line-height: 1.5;
-            -webkit-text-size-adjust: 100%;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            overflow-y: hidden; /* JavaScript will restore this after splash clears */
         }
 
-        header, .search-wrapper, .category-section, footer, .no-results-wrap {
+        /* ================= SPLASH LAYER CSS STRUCTURE ================= */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #07080a;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
+        }
+
+        .splash-terminal-log {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            animation: flashText 1.2s forwards;
+        }
+
+        .splash-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.96);
+            animation: revealLogo 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
+        }
+
+        .zdg-monogram {
+            font-size: 6.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: var(--logo-red);
+            line-height: 0.9;
+            text-shadow: 0 0 30px var(--logo-red-glow);
+            margin: 0;
+        }
+
+        .zdg-fulltext {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 16px;
+            color: #ffffff;
+        }
+        
+        .zdg-fulltext span {
+            color: var(--logo-red);
+        }
+
+        .zdg-subtext {
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: 0.45em;
+            color: #cccccc;
+            margin-top: 6px;
+            text-transform: uppercase;
+            padding-left: 0.45em; /* Perfectly balances outer letter-spacing track */
+        }
+
+        /* --- SPLASH TIMING KEYFRAMES --- */
+        @keyframes flashText {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes revealLogo {
+            0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+
+        /* ================= CORE HUB INTERFACE LAYOUT ================= */
+        header, .telemetry-dashboard, .search-wrapper, .category-section, footer, .no-results-wrap {
             max-width: 1300px;
             margin-left: auto;
             margin-right: auto;
@@ -62,9 +147,8 @@
             padding-right: 24px;
         }
 
-        /* --- HEADER STRUCTURE --- */
         header {
-            padding-top: 60px;
+            padding-top: 50px;
             padding-bottom: 20px;
             display: flex;
             justify-content: space-between;
@@ -91,7 +175,6 @@
             flex-wrap: wrap;
         }
         
-        /* --- UTILITY COMPONENTS --- */
         .header-btn {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -101,10 +184,6 @@
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            user-select: none;
         }
         .status-badge {
             display: flex;
@@ -118,307 +197,207 @@
             font-weight: 700;
             color: var(--accent-cyan);
             letter-spacing: 0.05em;
-            cursor: pointer;
         }
         .status-dot {
             width: 6px;
             height: 6px;
             background-color: var(--accent-cyan);
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent-cyan);
         }
 
-        /* --- SEARCH & FILTERS --- */
-        .search-wrapper {
-            margin-top: 10px;
-            margin-bottom: 25px;
+        /* --- METRICS INDEX --- */
+        .telemetry-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
         }
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            margin-bottom: 16px;
-        }
-        .search-input {
-            width: 100%;
+        .telemetry-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
+            padding: 14px 18px;
             border-radius: 8px;
-            padding: 14px 40px 14px 44px;
-            font-size: 16px;
-            color: var(--text-primary);
-            box-sizing: border-box;
-            transition: all 0.2s ease;
         }
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
+        .telemetry-label {
+            font-family: monospace; font-size: 0.7rem; color: var(--accent-slate);
+            text-transform: uppercase; letter-spacing: 0.08em;
         }
+        .telemetry-value {
+            font-size: 1.1rem; font-weight: 700; margin-top: 4px; font-family: monospace;
+        }
+
+        /* --- MATRIX FILTERS --- */
+        .search-wrapper {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .search-container { position: relative; width: 100%; max-width: 450px; }
+        .search-input {
+            width: 100%; background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 8px; padding: 14px 40px 14px 44px; font-size: 16px;
+            color: var(--text-primary); box-sizing: border-box;
+        }
+        .search-input:focus { outline: none; border-color: var(--accent-cyan); }
         .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 14px;
-            height: 14px;
-            border: 2px solid var(--accent-slate);
-            border-radius: 50%;
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            width: 14px; height: 14px; border: 2px solid var(--accent-slate); border-radius: 50%;
         }
         .search-icon::after {
-            content: '';
-            position: absolute; right: -5px; bottom: -5px;
-            width: 6px; height: 2px;
-            background: var(--accent-slate);
-            transform: rotate(45deg);
+            content: ''; position: absolute; right: -5px; bottom: -5px;
+            width: 6px; height: 2px; background: var(--accent-slate); transform: rotate(45deg);
         }
         .search-hint {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: var(--accent-slate);
-            background: rgba(255, 255, 255, 0.04);
-            padding: 2px 6px;
-            border-radius: 4px;
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            font-family: monospace; font-size: 0.75rem; color: var(--accent-slate);
+            background: rgba(255, 255, 255, 0.04); padding: 2px 6px; border-radius: 4px;
             border: 1px solid var(--border-color);
-            pointer-events: none;
         }
 
-        /* Filter Pills */
-        .filter-tags-track {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .filter-tags-track { display: flex; gap: 8px; flex-wrap: wrap; }
         .filter-pill {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-secondary); padding: 8px 16px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
         }
-        .filter-pill .pill-count {
-            font-family: monospace;
-            font-size: 0.75rem;
-            opacity: 0.6;
-        }
-        .filter-pill.active {
-            background: var(--accent-cyan);
-            color: #000 !important;
-            border-color: var(--accent-cyan);
-        }
+        .filter-pill.active { background: var(--accent-cyan); color: #000 !important; border-color: var(--accent-cyan); }
 
-        /* --- PROJECT GRID MATRIX --- */
-        .category-section {
-            margin-top: 30px;
-            margin-bottom: 40px;
-        }
+        /* --- CARDS GRID --- */
+        .category-section { margin-top: 20px; margin-bottom: 40px; }
         .category-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 14px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 24px;
+            display: flex; align-items: center; justify-content: space-between;
         }
         .category-tag {
-            font-size: 0.7rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: var(--text-secondary);
+            font-size: 0.7rem; background: var(--bg-card); border: 1px solid var(--border-color);
+            padding: 2px 8px; border-radius: 4px; color: var(--text-secondary);
         }
         
-        .container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+        .container { display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px; }
 
         .game-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 12px;
-            padding: 30px 24px;
-            flex: 1 1 350px;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-sizing: border-box;
-            transition: border-color 0.25s ease, background-color 0.25s ease;
+            background-color: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 30px 24px; flex: 1 1 380px; max-width: 100%;
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-sizing: border-box; transform: translateZ(0); will-change: transform; 
         }
 
         @media (hover: hover) {
-            .game-card:hover {
-                transform: translateY(-4px);
-                background-color: var(--bg-card-hover);
-                border-color: var(--border-hover);
-                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4);
-            }
+            .game-card:hover { background-color: var(--bg-card-hover); border-color: var(--border-hover); }
             .btn-cyan:hover { background-color: #22d3ee; }
             .btn-indigo:hover { background-color: #818cf8; }
             .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
-            .filter-pill:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
-            .header-btn:hover { border-color: var(--accent-slate); }
+            .tech-toggle:hover { color: var(--text-primary); }
         }
 
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            gap: 10px;
-        }
-        .meta-label {
-            font-size: 0.75rem;
-            font-family: monospace;
-            color: var(--accent-slate);
-            letter-spacing: 0.05em;
-        }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; }
+        .meta-label { font-size: 0.75rem; font-family: monospace; color: var(--accent-slate); letter-spacing: 0.05em; }
 
-        h2 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin: 0 0 12px 0;
-            letter-spacing: -0.01em;
-        }
-        p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-        .features {
-            margin: 0 0 35px 0;
-            padding-left: 18px;
-        }
-        .features li {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            list-style-type: square;
-        }
-        .features strong {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
+        h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 12px 0; letter-spacing: -0.01em; }
+        p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; }
+        
+        .features { margin: 0 0 20px 0; padding-left: 18px; }
+        .features li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-secondary); list-style-type: square; }
+        .features strong { color: var(--text-primary); font-weight: 500; }
 
-        /* --- BUTTON MATRIX --- */
-        .button-group {
-            margin-top: auto; 
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
+        .tech-toggle {
+            background: none; border: none; color: var(--accent-slate); font-family: monospace;
+            font-size: 0.78rem; font-weight: 700; padding: 6px 0; margin-bottom: 20px;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: max-content;
         }
+        .tech-spec-panel {
+            background: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 0; margin-bottom: 25px;
+            max-height: 0; overflow: hidden; transition: all 0.2s ease-out; font-family: monospace; font-size: 0.78rem;
+        }
+        body.light-theme .tech-spec-panel { background: rgba(0, 0, 0, 0.02); }
+        .tech-spec-panel.expanded { padding: 12px 16px; max-height: 180px; border: 1px solid var(--border-color); }
+        .spec-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .spec-v { color: var(--accent-cyan); }
+
+        /* --- ACTION TRIGGERS --- */
+        .button-group { margin-top: auto; display: flex; flex-direction: row; gap: 10px; }
         .btn {
-            flex: 1;
-            display: block;
-            padding: 14px 16px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.88rem;
-            text-align: center;
-            box-sizing: border-box;
-            cursor: pointer;
-            border: none;
+            flex: 1; display: block; padding: 14px 16px; font-weight: 600;
+            text-decoration: none; border-radius: 6px; font-size: 0.88rem; text-align: center;
+            box-sizing: border-box; cursor: pointer; border: none;
         }
         .btn-cyan { background-color: var(--accent-cyan); color: #000; }
         .btn-indigo { background-color: var(--accent-indigo); color: #fff; }
         .btn-slate {
-            background-color: rgba(255, 255, 255, 0.04);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid var(--border-color);
         }
-        body.light-theme .btn-slate {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
+        body.light-theme .btn-slate { background-color: rgba(0, 0, 0, 0.02); }
         
-        .game-card.edition-tool {
-            background-color: rgba(255, 255, 255, 0.01);
-            border: 1px dashed var(--border-color);
-        }
-
+        .game-card.edition-tool { background-color: transparent; border: 1px dashed var(--border-color); }
         .no-results-wrap { display: none; color: var(--text-secondary); margin: 40px auto; }
 
-        /* --- CONSOLE DRAWER OVERLAY --- */
+        /* --- REPOSITORY ACTIVITY MATRIX --- */
+        .activity-grid-wrap {
+            display: grid; grid-template-columns: 1fr; gap: 16px; background: var(--bg-card);
+            border: 1px solid var(--border-color); padding: 24px; border-radius: 12px;
+        }
+        .activity-header-meta { display: flex; justify-content: space-between; align-items: center; }
+        .grid-matrix-container { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+        .grid-col { display: flex; flex-direction: column; gap: 4px; }
+        .grid-cell { width: 11px; height: 11px; background: rgba(255,255,255,0.03); border-radius: 2px; }
+        body.light-theme .grid-cell { background: rgba(0,0,0,0.05); }
+        .grid-cell.fill-1 { background: var(--grid-green-low); }
+        .grid-cell.fill-2 { background: var(--grid-green); opacity: 0.7; }
+        .grid-cell.fill-3 { background: var(--grid-green); }
+
+        /* --- CONSOLE SYSTEM DRAWER --- */
         .console-drawer {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--console-bg);
-            border-top: 1px solid var(--border-color);
-            font-family: monospace;
-            font-size: 0.78rem;
-            z-index: 100;
-            transform: translateY(calc(100% - 36px));
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--console-bg);
+            border-top: 1px solid var(--border-color); font-family: monospace; font-size: 0.78rem;
+            z-index: 100; transform: translateY(calc(100% - 36px)); transition: transform 0.2s ease;
         }
-        .console-drawer.open {
-            transform: translateY(0);
-        }
+        .console-drawer.open { transform: translateY(0); }
         .console-header {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 8px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            color: var(--accent-slate);
+            background: rgba(0, 0, 0, 0.15); padding: 8px 24px; display: flex;
+            justify-content: space-between; align-items: center; cursor: pointer; color: var(--accent-slate);
         }
         .console-logs {
-            height: 140px;
-            overflow-y: auto;
-            padding: 16px 24px;
-            margin: 0;
-            list-style: none;
-            color: #22c55e;
+            height: 140px; overflow-y: auto; padding: 16px 24px; margin: 0; list-style: none; color: #22c55e;
         }
         .console-logs li { margin-bottom: 6px; }
 
         footer {
-            margin-top: 80px;
-            padding-top: 30px;
-            padding-bottom: 80px; 
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
+            margin-top: 80px; padding-top: 30px; padding-bottom: 80px; 
+            font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; gap: 16px;
         }
 
-        /* --- RESPONSIVE MOBILE ADJUSTMENTS --- */
+        /* --- LAYOUT BREAKPOINTS --- */
+        @media (max-width: 900px) {
+            .search-wrapper { flex-direction: column; align-items: flex-start; }
+            .search-container { max-width: 100%; }
+        }
         @media (max-width: 767px) {
+            .zdg-monogram { font-size: 4rem; }
+            .zdg-fulltext { font-size: 1.1rem; }
+            .zdg-subtext { font-size: 0.9rem; }
             header { padding-top: 40px; }
             .header-main h1 { font-size: 1.9rem; }
             .button-group { flex-direction: column; }
             footer { flex-direction: column; align-items: flex-start; }
-            .search-hint { display: none; } /* Hide keystroke shortcuts on handheld layouts */
-        }
-        @media (max-width: 400px) {
-            .game-card { padding: 24px 16px; }
-            .card-meta { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .search-hint { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <div id="splash-screen">
+        <div class="splash-terminal-log">[SYSTEM_BOOT] Initializing z3rr0 core pipeline configuration registers...</div>
+        <div class="splash-logo-container">
+            <h1 class="zdg-monogram">ZDG</h1>
+            <div class="zdg-fulltext"><span>Z</span>ERRØDEV <span>G</span>AMES</div>
+            <div class="zdg-subtext">Portfolio Hub</div>
+        </div>
+    </div>
 
     <header>
         <div class="header-main">
@@ -430,12 +409,30 @@
             <button class="header-btn" id="theme-btn">🌗 <span>Theme</span></button>
             <div class="status-badge" id="ping-badge">
                 <div class="status-dot"></div>
-                <span id="ping-text">LIVE // 22ms</span>
+                <span id="ping-text">LIVE // --ms</span>
             </div>
         </div>
     </header>
 
-    <!-- MATRIX CONTROLS -->
+    <section class="telemetry-dashboard">
+        <div class="telemetry-card">
+            <div class="telemetry-label">Pipeline Environment</div>
+            <div class="telemetry-value" style="color: var(--accent-cyan)">PROD_ACTIVE</div>
+        </div>
+        <div class="telemetry-card">
+            <div class="telemetry-label">Software Builds</div>
+            <div class="telemetry-value" id="dash-build-count">03 Localized</div>
+        </div>
+        <div class="telemetry-card">
+            <div class="telemetry-label">Core Architecture</div>
+            <div class="telemetry-value">Multi-Stack</div>
+        </div>
+        <div class="telemetry-card">
+            <div class="telemetry-label">System Integrity</div>
+            <div class="telemetry-value" style="color: var(--grid-green)">99.98% NOMINAL</div>
+        </div>
+    </section>
+
     <div class="search-wrapper">
         <div class="search-container">
             <div class="search-icon"></div>
@@ -443,24 +440,21 @@
             <div class="search-hint">/</div>
         </div>
         <div class="filter-tags-track">
-            <div class="filter-pill active" data-filter="all">All Ecosystems <span class="pill-count" id="count-all">(0)</span></div>
-            <div class="filter-pill" data-filter="c#">Unity / C# <span class="pill-count" id="count-c#">(0)</span></div>
-            <div class="filter-pill" data-filter="android">Android Core <span class="pill-count" id="count-android">(0)</span></div>
-            <div class="filter-pill" data-filter="web">Web Engine <span class="pill-count" id="count-web">(0)</span></div>
+            <div class="filter-pill active" data-filter="all">All Systems <span id="count-all"></span></div>
+            <div class="filter-pill" data-filter="c#">Unity / C# <span id="count-c#"></span></div>
+            <div class="filter-pill" data-filter="android">Android <span id="count-android"></span></div>
+            <div class="filter-pill" data-filter="web">Web <span id="count-web"></span></div>
         </div>
     </div>
 
     <div class="no-results-wrap" id="no-results-msg">Terminal query returned empty stack trace. Press [Esc] to clear filters.</div>
 
-    <!-- ================= Interactive Media ================= -->
     <section class="category-section" data-sec="media">
         <div class="category-title">
-            <span>Interactive Media</span>
-            <div class="category-tag">02 PACKAGES</div>
+            <span>Interactive Media Modules</span>
+            <div class="category-tag">02 COMPILED</div>
         </div>
         <div class="container">
-            
-            <!-- NEBULA STRIKE 3D -->
             <div class="game-card" data-tags="web c# unity backend simulation">
                 <div>
                     <div class="card-meta">
@@ -469,21 +463,24 @@
                     </div>
                     <h2>Nebula Strike 3D</h2>
                     <p>A sophisticated 2.5D simulation engine balancing real-time flight metrics with mathematical passive resource allocation engines.</p>
-                    
                     <ul class="features">
                         <li><strong>System Layout:</strong> Multi-layered, dynamic cockpit configuration layers.</li>
                         <li><strong>Core Systems:</strong> Interactive idle resource optimization math matrix.</li>
-                        <li><strong>Network Hook:</strong> Remote community server terminal decryption arrays.</li>
                     </ul>
+                    
+                    <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
+                    <div class="tech-spec-panel">
+                        <div class="spec-row"><span>Graphics Pipeline</span><span class="spec-v">WebGL 2.0 / Canvas</span></div>
+                        <div class="spec-row"><span>State Machine</span><span class="spec-v">C# Thread Pools</span></div>
+                        <div class="spec-row"><span>Network Frame</span><span class="spec-v">JSON WebSocket Sync</span></div>
+                    </div>
                 </div>
-
                 <div class="button-group">
                     <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
 
-            <!-- NEBULA STRIKE -->
             <div class="game-card" data-tags="web c# unity retro math automation">
                 <div>
                     <div class="card-meta">
@@ -492,32 +489,32 @@
                     </div>
                     <h2>Nebula Strike (Legacy)</h2>
                     <p>Arcade combat engine combined with persistent background multi-tier structural mining and refinery logic loops.</p>
-                    
                     <ul class="features">
-                        <li><strong>State Handling:</strong> Vector-based flight mechanics and projectile calculation loops.</li>
-                        <li><strong>Upgrade Matrices:</strong> Runtime variable equipment loadout systems.</li>
+                        <li><strong>State Handling:</strong> Vector-based flight mechanics and calculation loops.</li>
                         <li><strong>Automation:</strong> Threaded backend automation background loops.</li>
                     </ul>
-                </div>
 
+                    <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
+                    <div class="tech-spec-panel">
+                        <div class="spec-row"><span>Graphics Pipeline</span><span class="spec-v">WebGL 1.0 Legacy</span></div>
+                        <div class="spec-row"><span>Math Vectoring</span><span class="spec-v">Floating Point Array</span></div>
+                        <div class="spec-row"><span>Storage Save</span><span class="spec-v">Local DOM Buffer</span></div>
+                    </div>
+                </div>
                 <div class="button-group">
                     <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- ================= Production Software ================= -->
     <section class="category-section" data-sec="apps">
         <div class="category-title">
-            <span>Production Software</span>
-            <div class="category-tag">01 COMPILED</div>
+            <span>Production Software Containers</span>
+            <div class="category-tag">01 RUNTIME</div>
         </div>
         <div class="container">
-
-            <!-- MOVIE PLAYER -->
             <div class="game-card" data-tags="android java application media stream">
                 <div>
                     <div class="card-meta">
@@ -526,50 +523,45 @@
                     </div>
                     <h2>Movie Player</h2>
                     <p>A zero-overhead, tracking-free Android container engineered for clean data parsing and media stream rendering.</p>
-                    
                     <ul class="features">
-                        <li><strong>API Routing:</strong> Asynchronous remote server query scripts run instantly on startup.</li>
-                        <li><strong>Security Layer:</strong> Integrated wrapper blocking native context background redirects.</li>
-                        <li><strong>Immersive Interface:</strong> Hardware viewport optimization logic forces system overlay auto-hiding.</li>
-                        <li><strong>Local Cache:</strong> Secure structural local DOM state watch-history persistence.</li>
+                        <li><strong>API Routing:</strong> Asynchronous remote server query scripts run instantly.</li>
+                        <li><strong>Security Layer:</strong> Integrated wrapper blocking native background redirects.</li>
                     </ul>
-                </div>
 
+                    <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
+                    <div class="tech-spec-panel">
+                        <div class="spec-row"><span>Core Build Target</span><span class="spec-v">Android API 33 (Java)</span></div>
+                        <div class="spec-row"><span>Media Handler</span><span class="spec-v">ExoPlayer Core Context</span></div>
+                        <div class="spec-row"><span>Tracking Shield</span><span class="spec-v">Manifest Filter Rule</span></div>
+                    </div>
+                </div>
                 <div class="button-group">
                     <button class="btn btn-indigo" id="dl-btn" data-url="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk">Download APK (6.9 MB)</button>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- ================= STAGING MODULES ================= -->
-    <section class="category-section" data-sec="tools">
+    <section class="category-section">
         <div class="category-title">
-            <span>Utility & Development Tools</span>
-            <div class="category-tag">PIPELINE</div>
+            <span>System Node Repository Analytics</span>
+            <div class="category-tag">SECURE LOG FEED</div>
         </div>
-        <div class="container">
-            <div class="game-card edition-tool" data-tags="none">
-                <div>
-                    <div class="card-meta">
-                        <span class="meta-label">STAGING // BLOCK</span>
-                    </div>
-                    <h2>Developer Tools</h2>
-                    <p>Systems, build engines, and automated utilities are currently in standard pipeline development stages.</p>
-                </div>
-                <div class="button-group" style="display: none;"></div>
+        <div class="activity-grid-wrap">
+            <div class="activity-header-meta">
+                <span style="font-size: 0.9rem; font-weight: 700; font-family: monospace;">Ecosystem Contributions Matrix</span>
+                <span style="font-size: 0.75rem; color: var(--accent-slate); font-family: monospace;">Total Commits Checked: 1,482</span>
             </div>
+            <div class="grid-matrix-container" id="grid-matrix-target"></div>
         </div>
     </section>
 
     <footer>
-        <div>&copy; 2026 Z3RR0_DEV.GAMES. Build validated.</div>
-        <div>SysStatus: Production Stack Normal</div>
+        <div>&copy; 2026 Z3RR0_DEV.GAMES. All rights reserved.</div>
+        <div>System Thread: Production Stack Stable</div>
     </footer>
 
-    <!-- --- CONSOLE LOG DRAWER --- -->
     <div class="console-drawer" id="terminal-drawer">
         <div class="console-header" id="terminal-header">
             <span>⚡ SYSTEM CONSOLE LAYER // ACTIVE</span>
@@ -577,20 +569,34 @@
         </div>
         <ul class="console-logs" id="log-target">
             <li>[INFO] Domain network context localized to Z3RR0_DEV.GAMES.</li>
-            <li>[INFO] Keyboard listening listener mounted: [/] to query, [ESC] to flush.</li>
-            <li>[READY] Secure state triggers running in structural alignment matrix.</li>
+            <li>[INFO] Splash system entry pipeline executed seamlessly.</li>
         </ul>
     </div>
 
-    <!-- --- CONTROL LOGIC INJECTOR --- -->
     <script>
         const searchInput = document.getElementById('project-search');
         const filterPills = document.querySelectorAll('.filter-pill');
         const cards = document.querySelectorAll('.game-card');
         const sections = document.querySelectorAll('.category-section');
         const logTarget = document.getElementById('log-target');
-        
         let activeTag = 'all';
+
+        // --- SPLASH LAYER INTERACTION CONTROL ---
+        window.addEventListener('DOMContentLoaded', () => {
+            generateActivityMatrix();
+            recalculatePillCounts();
+            
+            // Lock splash open for exactly 3 seconds, then drop layer opacity smoothly
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+                
+                // Unlock body scroll once clear
+                document.body.style.overflowY = 'auto';
+                appendLog("Splash layer pipeline detached. Core viewport focus unlinked.");
+            }, 3000);
+        });
 
         function appendLog(text) {
             const li = document.createElement('li');
@@ -600,10 +606,29 @@
             logTarget.scrollTop = logTarget.scrollHeight;
         }
 
-        // METRICS: Dynamic Pills Quantifier Engine
+        // --- RENDER DYNAMIC ACTIVITY GRID CELLS ---
+        function generateActivityMatrix() {
+            const target = document.getElementById('grid-matrix-target');
+            target.innerHTML = '';
+            
+            // Render 28 columns across widescreen viewports
+            for (let i = 0; i < 28; i++) {
+                const col = document.createElement('div');
+                col.className = 'grid-col';
+                
+                // 7 days per column
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('div');
+                    const fillValue = Math.floor(Math.random() * 4); // 0 to 3 density array
+                    cell.className = fillValue > 0 ? `grid-cell fill-${fillValue}` : 'grid-cell';
+                    col.appendChild(cell);
+                }
+                target.appendChild(col);
+            }
+        }
+
         function recalculatePillCounts() {
             let tallies = { all: 0, 'c#': 0, android: 0, web: 0 };
-            
             cards.forEach(card => {
                 if (card.classList.contains('edition-tool')) return;
                 const tags = card.getAttribute('data-tags') || '';
@@ -612,14 +637,12 @@
                 if (tags.includes('android')) tallies.android++;
                 if (tags.includes('web')) tallies.web++;
             });
-
             for (let key in tallies) {
                 const badge = document.getElementById(`count-${key}`);
                 if (badge) badge.innerText = `(${tallies[key]})`;
             }
         }
 
-        // CONTROL: Unified Filtering Matrix Engine
         function filterMatrix() {
             const textQuery = searchInput.value.toLowerCase().trim();
             let visibleUnits = 0;
@@ -652,94 +675,77 @@
                 filterPills.forEach(p => p.classList.remove('active'));
                 pill.classList.add('active');
                 activeTag = pill.getAttribute('data-filter');
-                appendLog(`Applied structural view mask: [${activeTag.toUpperCase()}]`);
+                appendLog(`Applied view mask: [${activeTag.toUpperCase()}]`);
                 filterMatrix();
             });
         });
 
-        // ACTION: Interactive Async Compiler Simulation
+        // Toggle dropdown architectures 
+        document.querySelectorAll('.tech-toggle').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const panel = e.target.nextElementSibling;
+                panel.classList.toggle('expanded');
+                appendLog("Altered metadata structural visibility dropdown matrix.");
+            });
+        });
+
         document.getElementById('dl-btn').addEventListener('click', function(e) {
             const btn = e.target;
             if(btn.disabled) return;
-            
             btn.disabled = true;
-            appendLog("Triggering remote distribution build package allocation array...");
+            appendLog("Triggering build parsing sequence...");
             let progress = 0;
-            
             const timer = setInterval(() => {
-                progress += Math.floor(Math.random() * 20) + 10;
+                progress += Math.floor(Math.random() * 25) + 15;
                 if(progress >= 100) {
                     clearInterval(timer);
                     btn.innerText = "Deployment Success";
-                    appendLog("Binary compiler signature verified. Injecting payload package download stream.");
                     setTimeout(() => {
                         window.location.href = btn.getAttribute('data-url');
                         btn.disabled = false;
                         btn.innerText = "Download APK (6.9 MB)";
-                    }, 800);
+                    }, 500);
                 } else {
-                    btn.innerText = `Compiling Build... ${Math.min(progress, 99)}%`;
+                    btn.innerText = `Compiling... ${Math.min(progress, 99)}%`;
                 }
-            }, 150);
+            }, 100);
         });
 
-        // ACTION: Clipboard Node Sharing Execution
         document.getElementById('share-btn').addEventListener('click', function() {
             navigator.clipboard.writeText(window.location.href).then(() => {
                 const textNode = document.getElementById('share-text');
                 textNode.innerText = "Copied!";
-                appendLog("System URL buffered to native desktop clipboard register safely.");
+                appendLog("URL link structured inside desktop clipboard.");
                 setTimeout(() => { textNode.innerText = "Share Link"; }, 2000);
-            }).catch(() => {
-                appendLog("[WARN] Clipboard write pipeline permissions faulted.");
             });
         });
 
-        // ACCESSIBILITY: Hotkey Hooks
         window.addEventListener('keydown', (e) => {
             if (e.key === '/' && document.activeElement !== searchInput) {
-                e.preventDefault();
-                searchInput.focus();
-                searchInput.select();
-                appendLog("Search vector focused via keybind keyboard trigger.");
+                e.preventDefault(); searchInput.focus(); searchInput.select();
             }
             if (e.key === 'Escape') {
-                searchInput.value = '';
-                filterMatrix();
-                searchInput.blur();
-                appendLog("Flushed input arrays and reset running filters.");
+                searchInput.value = ''; filterMatrix(); searchInput.blur();
             }
         });
 
-        // TELEMETRY: Mock Ping Fluctuations
         const pingText = document.getElementById('ping-text');
         setInterval(() => {
-            const simulatedPing = Math.floor(Math.random() * 15) + 15;
+            const simulatedPing = Math.floor(Math.random() * 12) + 14;
             pingText.innerText = `LIVE // ${simulatedPing}ms`;
         }, 4000);
 
-        document.getElementById('ping-badge').addEventListener('click', () => {
-            appendLog("Running routing trace... Gateway routing paths optimal. No packet drop detected.");
-        });
-
-        // UTILITY: Theme Switcher
         document.getElementById('theme-btn').addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
-            const mode = document.body.classList.contains('light-theme') ? "LIGHT_ENVIRONMENT" : "DARK_ENVIRONMENT";
-            appendLog(`Viewport system architecture shifted to state: [${mode}]`);
+            appendLog(`System environment canvas color matrix shifted.`);
         });
 
-        // UTILITY: Terminal Slide Toggle
         const drawer = document.getElementById('terminal-drawer');
         const indicator = document.getElementById('terminal-indicator');
         document.getElementById('terminal-header').addEventListener('click', () => {
             drawer.classList.toggle('open');
             indicator.innerText = drawer.classList.contains('open') ? "[ MINIMIZE ]" : "[ OPEN ]";
         });
-
-        // Initialize counters on load
-        recalculatePillCounts();
     </script>
-
 </body>
 </html>
