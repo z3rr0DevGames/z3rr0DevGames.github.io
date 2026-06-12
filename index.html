@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z3RR0_DEV.GAMES // Portfolio</title>
+    <title>Z3RR0_DEV // Portfolio</title>
     <style>
         :root {
+            /* --- THEME MATRIX INDICES (DARK MODE DEFAULT) --- */
             --bg-main: #07080a;
             --bg-card: rgba(18, 20, 28, 0.65);
             --bg-card-hover: rgba(23, 26, 36, 0.85);
@@ -16,27 +17,44 @@
             --accent-slate: #64748b;
             --border-color: rgba(255, 255, 255, 0.05);
             --border-hover: rgba(255, 255, 255, 0.12);
+            --console-bg: #0d0f14;
+            --grid-opacity: 0.02;
+        }
+
+        /* --- LIGHT THEME AMENDMENT OVERRIDES --- */
+        body.light-theme {
+            --bg-main: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card-hover: rgba(241, 245, 249, 0.95);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-cyan: #0891b2;
+            --accent-indigo: #4f46e5;
+            --accent-slate: #94a3b8;
+            --border-color: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.18);
+            --console-bg: #e2e8f0;
+            --grid-opacity: 0.04;
         }
 
         body {
             background-color: var(--bg-main);
             background-image: 
-                linear-gradient(rgba(6, 182, 212, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.02) 1px, transparent 1px),
-                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 50%),
-                radial-gradient(circle at 10% 40%, rgba(6, 182, 212, 0.03) 0%, transparent 40%);
-            background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+                linear-gradient(rgba(6, 182, 212, var(--grid-opacity)) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, var(--grid-opacity)) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.07) 0%, transparent 50%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
             background-attachment: fixed;
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
             line-height: 1.5;
-            -webkit-text-size-adjust: 100%; /* Prevents mobile font scaling anomalies */
+            -webkit-text-size-adjust: 100%;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- CONTAINER BASELINE --- */
-        header, .search-wrapper, .category-section, footer {
+        header, .search-wrapper, .category-section, footer, .no-results-wrap {
             max-width: 1300px;
             margin-left: auto;
             margin-right: auto;
@@ -44,7 +62,7 @@
             padding-right: 24px;
         }
 
-        /* --- MODERN HEADER CONFIG --- */
+        /* --- HEADER STRUCTURE --- */
         header {
             padding-top: 60px;
             padding-bottom: 20px;
@@ -59,28 +77,44 @@
             font-weight: 800;
             letter-spacing: -0.03em;
             margin: 0;
-            color: var(--text-primary);
         }
         .header-main .subtitle {
             color: var(--text-secondary);
             font-size: 1rem;
             margin-top: 6px;
-            font-weight: 400;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
+        /* --- UTILITY COMPONENTS (THEME & STATUS) --- */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
         .status-badge {
             display: flex;
             align-items: center;
             gap: 8px;
             background: rgba(6, 182, 212, 0.06);
             border: 1px solid rgba(6, 182, 212, 0.15);
-            padding: 6px 14px;
-            border-radius: 20px;
+            padding: 8px 14px;
+            border-radius: 8px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent-cyan);
             letter-spacing: 0.05em;
-            white-space: nowrap;
         }
         .status-dot {
             width: 6px;
@@ -90,7 +124,7 @@
             box-shadow: 0 0 8px var(--accent-cyan);
         }
 
-        /* --- SEARCH WRAPPER --- */
+        /* --- CONTROL ARRAYS (SEARCH & FILTERS) --- */
         .search-wrapper {
             margin-top: 10px;
             margin-bottom: 25px;
@@ -99,29 +133,22 @@
             position: relative;
             width: 100%;
             max-width: 450px;
+            margin-bottom: 16px;
         }
         .search-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 14px 16px 14px 44px;
-            font-size: 16px; /* Essential threshold rule to prevent auto-zooms on mobile layouts */
+            font-size: 16px;
             color: var(--text-primary);
-            font-family: inherit;
             box-sizing: border-box;
-            backdrop-filter: blur(8px);
-            -webkit-appearance: none; /* Strips structural elements on iOS layout elements */
             transition: all 0.2s ease;
         }
         .search-input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(6, 182, 212, 0.4);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
-        }
-        .search-input::placeholder {
-            color: var(--accent-slate);
+            border-color: var(--accent-cyan);
         }
         .search-icon {
             position: absolute;
@@ -132,26 +159,44 @@
             height: 14px;
             border: 2px solid var(--accent-slate);
             border-radius: 50%;
-            pointer-events: none;
         }
         .search-icon::after {
             content: '';
-            position: absolute;
-            right: -5px;
-            bottom: -5px;
-            width: 6px;
-            height: 2px;
+            position: absolute; right: -5px; bottom: -5px;
+            width: 6px; height: 2px;
             background: var(--accent-slate);
             transform: rotate(45deg);
         }
 
-        /* --- CATEGORY LAYOUT ARCHITECTURE --- */
+        /* Filter Pills Stack */
+        .filter-tags-track {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-pill.active {
+            background: var(--accent-cyan);
+            color: #000 !important;
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- PROJECT GRID MATRIX --- */
         .category-section {
-            margin-top: 20px;
+            margin-top: 30px;
             margin-bottom: 40px;
         }
         .category-title {
-            color: var(--text-primary);
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.15em;
@@ -165,24 +210,20 @@
         }
         .category-tag {
             font-size: 0.7rem;
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 2px 8px;
             border-radius: 4px;
             color: var(--text-secondary);
         }
         
-        /* --- HIGH PERFORMANCE FLEX MATRIX GRID ENGINE --- */
         .container {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: flex-start;
-            align-items: stretch;
         }
 
-        /* --- FLUID ECO-CARDS --- */
         .game-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -190,25 +231,26 @@
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
             padding: 30px 24px;
-            flex: 1 1 350px; /* Fluid wrapping engine: triggers collapse only below 350px device spaces */
+            flex: 1 1 350px;
             max-width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-sizing: border-box;
+            transition: border-color 0.25s ease, background-color 0.25s ease;
         }
 
-        /* Enforce desktop-only hover behaviors to isolate tap anomalies on smartphones */
         @media (hover: hover) {
             .game-card:hover {
                 transform: translateY(-4px);
                 background-color: var(--bg-card-hover);
                 border-color: var(--border-hover);
-                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+                box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4);
             }
             .btn-cyan:hover { background-color: #22d3ee; }
             .btn-indigo:hover { background-color: #818cf8; }
             .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
+            .filter-pill:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
         }
 
         .card-meta {
@@ -223,11 +265,9 @@
             font-family: monospace;
             color: var(--accent-slate);
             letter-spacing: 0.05em;
-            white-space: nowrap;
         }
 
         h2 {
-            color: var(--text-primary);
             font-size: 1.35rem;
             font-weight: 700;
             margin: 0 0 12px 0;
@@ -237,7 +277,6 @@
             font-size: 0.95rem;
             color: var(--text-secondary);
             margin-bottom: 24px;
-            font-weight: 400;
         }
         .features {
             margin: 0 0 35px 0;
@@ -254,56 +293,82 @@
             font-weight: 500;
         }
 
-        /* --- TACTILE EXPANSION BUTTON MODULE --- */
+        /* --- BUTTON MATRIX --- */
         .button-group {
             margin-top: auto; 
             display: flex;
-            flex-direction: row; /* Horizontal alignment structure configuration */
+            flex-direction: row;
             gap: 10px;
         }
         .btn {
-            flex: 1; /* Split button distribution spacing rule */
+            flex: 1;
             display: block;
-            padding: 14px 16px; /* Thickened surface density optimized specifically for human fingers */
+            padding: 14px 16px;
             font-weight: 600;
             text-decoration: none;
             border-radius: 6px;
             font-size: 0.88rem;
             text-align: center;
             box-sizing: border-box;
-            transition: background-color 0.15s ease;
+            cursor: pointer;
+            border: none;
         }
-        .btn-cyan {
-            background-color: var(--accent-cyan);
-            color: #000;
-        }
-        .btn-indigo {
-            background-color: var(--accent-indigo);
-            color: #fff;
-        }
+        .btn-cyan { background-color: var(--accent-cyan); color: #000; }
+        .btn-indigo { background-color: var(--accent-indigo); color: #fff; }
         .btn-slate {
             background-color: rgba(255, 255, 255, 0.04);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
         }
+        body.light-theme .btn-slate {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
         
         .game-card.edition-tool {
             background-color: rgba(255, 255, 255, 0.01);
             border: 1px dashed var(--border-color);
-            backdrop-filter: blur(4px);
         }
 
-        #no-results-msg {
-            margin: 40px auto;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            display: none;
+        .no-results-wrap { display: none; color: var(--text-secondary); margin: 40px auto; }
+
+        /* --- PERSISTENT CONSOLE DRAWER OVERLAY --- */
+        .console-drawer {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--console-bg);
+            border-top: 1px solid var(--border-color);
+            font-family: monospace;
+            font-size: 0.78rem;
+            z-index: 100;
+            transform: translateY(calc(100% - 36px));
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .console-drawer.open {
+            transform: translateY(0);
+        }
+        .console-header {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 8px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--accent-slate);
+        }
+        .console-logs {
+            height: 140px;
+            overflow-y: auto;
+            padding: 16px 24px;
+            margin: 0;
+            list-style: none;
+            color: #22c55e;
+        }
+        .console-logs li { margin-bottom: 6px; }
 
         footer {
-            margin-top: 100px;
+            margin-top: 80px;
             padding-top: 30px;
-            padding-bottom: 40px;
+            padding-bottom: 80px; /* Space clear buffer for terminal bar stack */
             font-size: 0.85rem;
             color: var(--text-secondary);
             border-top: 1px solid var(--border-color);
@@ -312,36 +377,16 @@
             gap: 16px;
         }
 
-        /* --- COMPACT RESPONSIVE BREAKPOINT CONTROLS --- */
+        /* --- MOBILE LAYOUT RULE ADAPTATIONS --- */
         @media (max-width: 767px) {
-            header {
-                padding-top: 40px;
-            }
-            .header-main h1 {
-                font-size: 1.9rem;
-            }
-            .button-group {
-                flex-direction: column; /* Reverts split rows safely back to thick stacks on thin layouts */
-            }
-            .btn {
-                width: 100%;
-            }
-            footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            header { padding-top: 40px; }
+            .header-main h1 { font-size: 1.9rem; }
+            .button-group { flex-direction: column; }
+            footer { flex-direction: column; align-items: flex-start; }
         }
-
-        /* Rule safeguarding edge cases where screen configurations approach extreme boundaries */
         @media (max-width: 400px) {
-            .game-card {
-                padding: 24px 16px;
-            }
-            .card-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
+            .game-card { padding: 24px 16px; }
+            .card-meta { flex-direction: column; align-items: flex-start; gap: 4px; }
         }
     </style>
 </head>
@@ -349,41 +394,51 @@
 
     <header>
         <div class="header-main">
-            <h1>Z3RR0_DEV.GAMES</h1>
+            <h1>Z3RR0_DEV</h1>
             <div class="subtitle">Software Engineering & Digital Product Development</div>
         </div>
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            <span>PORTFOLIO ACTIVE // 2026</span>
+        <div class="header-actions">
+            <button class="theme-toggle" id="theme-btn">🌗 <span>Mode</span></button>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <span>LIVE</span>
+            </div>
         </div>
     </header>
 
     <div class="search-wrapper">
         <div class="search-container">
             <div class="search-icon"></div>
-            <input type="text" id="project-search" class="search-input" placeholder="Search systems, features, or engines...">
+            <input type="text" id="project-search" class="search-input" placeholder="Search parameters...">
         </div>
-        <div id="no-results-msg">No engineering pipelines match your query.</div>
+        <div class="filter-tags-track">
+            <div class="filter-pill active" data-filter="all">All Ecosystems</div>
+            <div class="filter-pill" data-filter="c#">Unity / C#</div>
+            <div class="filter-pill" data-filter="android">Android Core</div>
+            <div class="filter-pill" data-filter="web">Web Engine</div>
+        </div>
     </div>
 
-    <section class="category-section">
+    <div class="no-results-wrap" id="no-results-msg">Terminal query returned empty stack trace.</div>
+
+    <section class="category-section" data-sec="media">
         <div class="category-title">
             <span>Interactive Media</span>
-            <div class="category-tag">02 PROJECTS</div>
+            <div class="category-tag">02 PACKAGES</div>
         </div>
         <div class="container">
             
-            <div class="game-card">
+            <div class="game-card" data-tags="web c# unity backend simulation">
                 <div>
                     <div class="card-meta">
                         <span class="meta-label">ENGINE // 2.5D SIM</span>
-                        <span class="meta-label" style="color: var(--accent-cyan);">v2.0 LIVE</span>
+                        <span class="meta-label" style="color: var(--accent-cyan);">v2.0 ACTIVE</span>
                     </div>
                     <h2>Nebula Strike 3D</h2>
                     <p>A sophisticated 2.5D simulation engine balancing real-time flight metrics with mathematical passive resource allocation engines.</p>
                     
                     <ul class="features">
-                        <li><strong>System Layout:</strong> Multi-layered, dynamic cockpit simulation configuration layers.</li>
+                        <li><strong>System Layout:</strong> Multi-layered, dynamic cockpit configuration layers.</li>
                         <li><strong>Core Systems:</strong> Interactive idle resource optimization math matrix.</li>
                         <li><strong>Network Hook:</strong> Remote community server terminal decryption arrays.</li>
                     </ul>
@@ -395,11 +450,11 @@
                 </div>
             </div>
 
-            <div class="game-card">
+            <div class="game-card" data-tags="web c# unity retro math automation">
                 <div>
                     <div class="card-meta">
                         <span class="meta-label">ENGINE // ARCADE</span>
-                        <span class="meta-label">LEGACY CORE</span>
+                        <span class="meta-label">LEGACY MATRIX</span>
                     </div>
                     <h2>Nebula Strike (Legacy)</h2>
                     <p>Arcade combat engine combined with persistent background multi-tier structural mining and refinery logic loops.</p>
@@ -420,18 +475,18 @@
         </div>
     </section>
 
-    <section class="category-section">
+    <section class="category-section" data-sec="apps">
         <div class="category-title">
             <span>Production Software</span>
-            <div class="category-tag">01 DISTRIBUTION</div>
+            <div class="category-tag">01 COMPILED</div>
         </div>
         <div class="container">
 
-            <div class="game-card">
+            <div class="game-card" data-tags="android java application media stream">
                 <div>
                     <div class="card-meta">
                         <span class="meta-label">PLATFORM // ANDROID</span>
-                        <span class="meta-label" style="color: var(--accent-indigo);">STABLE BUILD</span>
+                        <span class="meta-label" style="color: var(--accent-indigo);">RELEASE TARGET</span>
                     </div>
                     <h2>Movie Player</h2>
                     <p>A zero-overhead, tracking-free Android container engineered for clean data parsing and media stream rendering.</p>
@@ -445,7 +500,7 @@
                 </div>
 
                 <div class="button-group">
-                    <a href="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk" class="btn btn-indigo">Download APK (6.9 MB)</a>
+                    <button class="btn btn-indigo" id="dl-btn" data-url="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk">Download APK (6.9 MB)</button>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
@@ -453,67 +508,138 @@
         </div>
     </section>
 
-    <section class="category-section">
+    <section class="category-section" data-sec="tools">
         <div class="category-title">
             <span>Utility & Development Tools</span>
-            <div class="category-tag">STAGING</div>
+            <div class="category-tag">PIPELINE</div>
         </div>
         <div class="container">
-
-            <div class="game-card edition-tool">
+            <div class="game-card edition-tool" data-tags="none">
                 <div>
                     <div class="card-meta">
-                        <span class="meta-label">REPOS // COMPILING</span>
+                        <span class="meta-label">STAGING // BLOCK</span>
                     </div>
                     <h2>Developer Tools</h2>
                     <p>Systems, build engines, and automated utilities are currently in standard pipeline development stages.</p>
                 </div>
                 <div class="button-group" style="display: none;"></div>
             </div>
-
         </div>
     </section>
 
     <footer>
-        <div>&copy; 2026 Z3RR0_DEV.GAMES. All software rights reserved.</div>
-        <div>System Status: Online</div>
+        <div>&copy; 2026 Z3RR0_DEV. Build validated.</div>
+        <div>SysStatus: Production Stack Normal</div>
     </footer>
 
+    <div class="console-drawer" id="terminal-drawer">
+        <div class="console-header" id="terminal-header">
+            <span>⚡ SYSTEM CONSOLE LAYER // ACTIVE</span>
+            <span id="terminal-indicator">[ OPEN ]</span>
+        </div>
+        <ul class="console-logs" id="log-target">
+            <li>[INFO 22:35:49] Port initialized safely at runtime block sequence.</li>
+            <li>[INFO 22:35:50] 03 Production environments isolated and linked.</li>
+            <li>[READY] Secure state triggers running in structural alignment matrix.</li>
+        </ul>
+    </div>
+
     <script>
-        document.getElementById('project-search').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.game-card');
-            const sections = document.querySelectorAll('.category-section');
-            let totalVisibleCards = 0;
+        const searchInput = document.getElementById('project-search');
+        const filterPills = document.querySelectorAll('.filter-pill');
+        const cards = document.querySelectorAll('.game-card');
+        const sections = document.querySelectorAll('.category-section');
+        const logTarget = document.getElementById('log-target');
+        
+        let activeTag = 'all';
+
+        function appendLog(text) {
+            const li = document.createElement('li');
+            const time = new Date().toTimeString().split(' ')[0];
+            li.textContent = `[USER_EVENT ${time}] ${text}`;
+            logTarget.appendChild(li);
+            logTarget.scrollTop = logTarget.scrollHeight;
+        }
+
+        // CONTROL: Unified Filtering Matrix Engine
+        function filterMatrix() {
+            const textQuery = searchInput.value.toLowerCase().trim();
+            let visibleUnits = 0;
 
             cards.forEach(card => {
-                const cardText = card.textContent.toLowerCase();
-                
-                if (cardText.includes(query)) {
+                const cardData = (card.getAttribute('data-tags') || '') + ' ' + card.textContent.toLowerCase();
+                const matchesText = cardData.includes(textQuery);
+                const matchesTag = (activeTag === 'all') || cardData.includes(activeTag);
+
+                if (matchesText && matchesTag) {
                     card.style.display = 'flex';
-                    if (!card.classList.contains('edition-tool')) {
-                        totalVisibleCards++;
-                    }
+                    if(!card.classList.contains('edition-tool')) visibleUnits++;
                 } else {
                     card.style.display = 'none';
                 }
             });
 
-            sections.forEach(section => {
-                const visibleCardsInSection = section.querySelectorAll('.game-card:not([style*="display: none"])');
-                if (visibleCardsInSection.length === 0) {
-                    section.style.display = 'none';
-                } else {
-                    section.style.display = 'block';
-                }
+            sections.forEach(sec => {
+                const innerActive = sec.querySelectorAll('.game-card:not([style*="display: none"])');
+                sec.style.display = (innerActive.length === 0) ? 'none' : 'block';
             });
 
-            const noResultsMsg = document.getElementById('no-results-msg');
-            if (totalVisibleCards === 0 && query !== '') {
-                noResultsMsg.style.display = 'block';
-            } else {
-                noResultsMsg.style.display = 'none';
-            }
+            document.getElementById('no-results-msg').style.display = (visibleUnits === 0 && textQuery !== '') ? 'block' : 'none';
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            filterMatrix();
+        });
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeTag = pill.getAttribute('data-filter');
+                appendLog(`Applied structural view mask: [${activeTag.toUpperCase()}]`);
+                filterMatrix();
+            });
+        });
+
+        // ACTION: Interactive Async Compiler Simulation
+        document.getElementById('dl-btn').addEventListener('click', function(e) {
+            const btn = e.target;
+            if(btn.disabled) return;
+            
+            btn.disabled = true;
+            appendLog("Triggering remote distribution build package allocation array...");
+            let progress = 0;
+            
+            const timer = setInterval(() => {
+                progress += Math.floor(Math.random() * 20) + 10;
+                if(progress >= 100) {
+                    clearInterval(timer);
+                    btn.innerText = "Deployment Success";
+                    appendLog("Binary compiler signature verified. Injecting payload package download stream.");
+                    setTimeout(() => {
+                        window.location.href = btn.getAttribute('data-url');
+                        btn.disabled = false;
+                        btn.innerText = "Download APK (6.9 MB)";
+                    }, 800);
+                } else {
+                    btn.innerText = `Compiling Build... ${Math.min(progress, 99)}%`;
+                }
+            }, 150);
+        });
+
+        // UTILITY: Modern Layout Theme Toggle Switch
+        document.getElementById('theme-btn').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const mode = document.body.classList.contains('light-theme') ? "LIGHT_ENVIRONMENT" : "DARK_ENVIRONMENT";
+            appendLog(`Viewport system architecture shifted to state: [${mode}]`);
+        });
+
+        // UTILITY: Console Terminal Sliding Functionality
+        const drawer = document.getElementById('terminal-drawer');
+        const indicator = document.getElementById('terminal-indicator');
+        document.getElementById('terminal-header').addEventListener('click', () => {
+            drawer.classList.toggle('open');
+            indicator.innerText = drawer.classList.contains('open') ? "[ MINIMIZE ]" : "[ OPEN ]";
         });
     </script>
 
