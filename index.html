@@ -3,175 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z3RR0_DEV.GAMES</title>
+    <title>Z3RR0_DEV // Portfolio</title>
     <style>
+        :root {
+            --bg-main: #0a0b0d;
+            --bg-card: #12141c;
+            --bg-card-hover: #171a24;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-cyan: #06b6d4;
+            --accent-indigo: #6366f1;
+            --accent-slate: #64748b;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-hover: rgba(255, 255, 255, 0.12);
+        }
+
         body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            text-align: center;
+            line-height: 1.5;
         }
+
+        /* --- MODERN HEADER --- */
         header {
-            padding: 50px 20px;
-            background: linear-gradient(180deg, #1f2833, #0b0c10);
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 80px 40px 40px 40px;
+            text-align: left;
         }
         h1 {
-            color: #66fcf1; /* Cyan */
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
             margin: 0;
-            font-size: 2.8rem;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+            color: var(--text-primary);
+            text-transform: uppercase;
         }
         .subtitle {
-            color: #45f3ff;
-            font-size: 1.2rem;
-            margin-top: 8px;
-            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-top: 6px;
+            font-weight: 400;
+        }
+
+        /* --- CATEGORY SECTION SYSTEM --- */
+        .category-section {
+            max-width: 1300px;
+            margin: 40px auto 60px auto;
+            padding: 0 40px;
+        }
+        .category-title {
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        /* --- RESPONSIVE GRID ENGINE --- */
+        /* --- FLEX RESPONSIVE GRID ENGINE --- */
         .container {
-            max-width: 1400px; 
-            margin: 40px auto;
-            padding: 0 20px;
             display: flex;
             flex-direction: row;
-            gap: 30px;
-            justify-content: center;
+            gap: 24px;
+            justify-content: flex-start;
             align-items: stretch; 
         }
 
+        /* --- ULTRA-CLEAN MODERN CARDS --- */
         .game-card {
-            background-color: #1f2833;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 35px 25px;
+            padding: 35px 30px;
             flex: 1; 
+            max-width: calc(33.333% - 16px);
             display: flex;
             flex-direction: column;
             justify-content: space-between; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .game-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Card 1: Nebula Strike 3D Theme Accent */
-        .game-card.edition-3d {
-            border: 2px solid #00FF78; /* Neon Mint */
-            box-shadow: 0 0 20px rgba(0, 255, 120, 0.15);
-        }
-        .game-card.edition-3d:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 120, 0.3);
-        }
-
-        /* Card 2: Original Nebula Strike Theme Accent */
-        .game-card.edition-classic {
-            border: 2px solid #ff007f; /* Studio Magenta */
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);
-        }
-        .game-card.edition-classic:hover {
-            box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
-        }
-
-        /* Card 3: Personal Movie App Theme Accent */
-        .game-card.edition-app {
-            border: 2px solid #ffcc00; /* Streaming Gold */
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
-        }
-        .game-card.edition-app:hover {
-            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            transform: translateY(-4px);
+            background-color: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
         }
 
         h2 {
-            color: #fff;
-            font-size: 2.1rem;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 700;
             margin-top: 0;
-            letter-spacing: 1px;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
         }
         p {
-            line-height: 1.6;
-            font-size: 1.05rem;
-            color: #a4a7ab;
-            text-align: left;
-            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-weight: 400;
         }
         .features {
-            text-align: left;
-            margin: 0 0 30px 0;
-            padding-left: 20px;
+            margin: 0 0 35px 0;
+            padding-left: 18px;
         }
         .features li {
-            margin-bottom: 12px;
-            font-size: 1.05rem;
-            list-style-type: square;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            list-style-type: cubic-bezier;
         }
+        .features strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* --- MINIMALIST FLAT BUTTONS --- */
         .button-group {
             margin-top: auto; 
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         .btn {
             display: block;
-            padding: 14px 20px;
-            font-weight: bold;
+            padding: 12px 18px;
+            font-weight: 600;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: 0.2s ease-in-out;
-            letter-spacing: 1px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: background-color 0.2s ease;
         }
-        .btn-itch-3d {
-            background-color: #00FF78;
-            color: #0b0c10;
+        .btn-cyan {
+            background-color: var(--accent-cyan);
+            color: #000;
         }
-        .btn-itch-3d:hover {
-            background-color: #00e6ff;
-            box-shadow: 0 0 15px #00e6ff;
+        .btn-cyan:hover {
+            background-color: #22d3ee;
         }
-        .btn-itch-classic {
-            background-color: #ff007f;
+        .btn-indigo {
+            background-color: var(--accent-indigo);
             color: #fff;
         }
-        .btn-itch-classic:hover {
-            background-color: #ff409f;
-            box-shadow: 0 0 15px #ff409f;
+        .btn-indigo:hover {
+            background-color: #818cf8;
         }
-        .btn-download-app {
-            background-color: #ffcc00;
-            color: #0b0c10;
+        .btn-slate {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
-        .btn-download-app:hover {
-            background-color: #ffe066;
-            box-shadow: 0 0 15px #ffcc00;
+        .btn-slate:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .btn-discord {
-            background-color: #5865F2; 
-            color: #fff;
+        
+        /* --- INACTIVE HOVER STATE CONTROL --- */
+        .game-card.edition-tool {
+            background-color: transparent;
+            border: 1px dashed var(--border-color);
         }
-        .btn-discord:hover {
-            background-color: #4752C4;
-            box-shadow: 0 0 15px #5865F2;
-        }
-        footer {
-            margin-top: 80px;
-            padding: 30px;
-            font-size: 0.95rem;
-            color: #45f3ff;
-            border-top: 1px solid #1f2833;
+        .game-card.edition-tool:hover {
+            transform: none;
+            background-color: transparent;
+            border-color: var(--border-color);
+            box-shadow: none;
         }
 
+        footer {
+            max-width: 1300px;
+            margin: 100px auto 0 auto;
+            padding: 40px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- MOBILE VIEWPORTS RULES --- */
         @media (max-width: 1024px) { 
+            header {
+                padding: 50px 24px 20px 24px;
+            }
+            .category-section {
+                padding: 0 24px;
+            }
             .container {
                 flex-direction: column; 
-                max-width: 550px;
             }
             .game-card {
                 flex: none;
+                max-width: 100%;
+                padding: 30px 24px;
+            }
+            footer {
+                margin-left: 24px;
+                margin-right: 24px;
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -179,71 +219,106 @@
 <body>
 
     <header>
-        <h1>Z3RR0_DEV.GAMES</h1>
-        <div class="subtitle">Tactical & High-Octane Arcade Experiences</div>
+        <h1>Z3RR0_DEV</h1>
+        <div class="subtitle">Software Engineering & Digital Product Development</div>
     </header>
 
-    <div class="container">
-        <div class="game-card edition-3d">
-            <div>
-                <h2>NEBULA STRIKE 3D</h2>
-                <p><strong>Strap into the cockpit, pilot.</strong> The definitive 2.5D space arcade shooter from Z3RR0DEVGAMES is here! Navigate high-velocity hazard sectors, maintain intense point-multiplier combos, and control an active production dashboard terminal to unlock the ultimate galaxy fleet.</p>
-                
-                <ul class="features">
-                    <li>🚀 <strong>Cinematic Windshields:</strong> Pilot advanced spacecraft using a detailed, multi-layered cockpit overlay.</li>
-                    <li>⚡ <strong>Plasma Clicker Refinery:</strong> Manage your industrial idle economy to passively fund your combat reserves.</li>
-                    <li>🔐 <strong>System Overrides:</strong> Decrypt secret codes issued via community servers to claim hidden credit drops!</li>
-                    <li>🛠️ <strong>Fleet Ship Hangar:</strong> Overhaul weapon components and deploy heavy gun arrays across modular hulls.</li>
-                </ul>
+    <!-- ================= CATEGORY 1: GAMES ================= -->
+    <section class="category-section">
+        <div class="category-title">🕹️ Interactive Media</div>
+        <div class="container">
+            
+            <!-- NEBULA STRIKE 3D -->
+            <div class="game-card">
+                <div>
+                    <h2>Nebula Strike 3D</h2>
+                    <p>A sophisticated 2.5D simulation engine balancing real-time flight metrics with mathematical passive resource allocation engines.</p>
+                    
+                    <ul class="features">
+                        <li><strong>System Layout:</strong> Multi-layered, dynamic cockpit simulation configuration layers.</li>
+                        <li><strong>Core Systems:</strong> Interactive idle resource optimization math matrix.</li>
+                        <li><strong>Network Hook:</strong> Remote community server terminal decryption arrays.</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-cyan" target="_blank">Launch Project (itch.io)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Documentation Server</a>
+                </div>
             </div>
 
-            <div class="button-group">
-                <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-itch-3d" target="_blank">PLAY NEBULA STRIKE 3D</a>
-                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
+            <!-- NEBULA STRIKE -->
+            <div class="game-card">
+                <div>
+                    <h2>Nebula Strike (Legacy)</h2>
+                    <p>Arcade combat engine combined with persistent background multi-tier structural mining and refinery logic loops.</p>
+                    
+                    <ul class="features">
+                        <li><strong>State Handling:</strong> Vector-based flight mechanics and projectile calculation loops.</li>
+                        <li><strong>Upgrade Matrices:</strong> Runtime variable equipment loadout systems.</li>
+                        <li><strong>Automation:</strong> Threaded backend automation background loops.</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch Project (itch.io)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Documentation Server</a>
+                </div>
             </div>
+
         </div>
+    </section>
 
-        <div class="game-card edition-classic">
-            <div>
-                <h2>NEBULA STRIKE</h2>
-                <p><strong>Prepare for deployment, pilot.</strong> Nebula Strike combines old-school, high-octane arcade action with a deep tactical progression system. Survive the cosmic onslaught, maximize your score combos, and build a mining empire to fund the ultimate starship fleet.</p>
-                
-                <ul class="features">
-                    <li>🔥 <strong>Intense Arcade Combat:</strong> Master dense asteroid fields and chaotic flight paths.</li>
-                    <li>⚡ <strong>Evolving Weapons:</strong> Mid-battle powerups ranging from Triple Cannons to Nebula Fury options.</li>
-                    <li>🚀 <strong>The Ship Hangar:</strong> Earn credits to unlock legacy ships like Venom, Zenith, or Titan.</li>
-                    <li>💎 <strong>Mining Facility:</strong> Build a passive income engine using Auto-Miners and Refineries.</li>
-                </ul>
+    <!-- ================= CATEGORY 2: APPLICATIONS ================= -->
+    <section class="category-section">
+        <div class="category-title">📱 Production Software</div>
+        <div class="container">
+
+            <!-- MOVIE PLAYER -->
+            <div class="game-card">
+                <div>
+                    <h2>Movie Player</h2>
+                    <p>A zero-overhead, tracking-free Android container engineered for clean data parsing and media stream rendering.</p>
+                    
+                    <ul class="features">
+                        <li><strong>API Routing:</strong> Asynchronous remote server query scripts run instantly on startup.</li>
+                        <li><strong>Security Layer:</strong> Integrated wrapper blocking native context background redirects.</li>
+                        <li><strong>Immersive Interface:</strong> Hardware viewport optimization logic forces system overlay auto-hiding.</li>
+                        <li><strong>Local Cache:</strong> Secure structural local DOM state watch-history persistence.</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <a href="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk" class="btn btn-indigo">Download Application Package (6.9 MB)</a>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Support Channel</a>
+                </div>
             </div>
 
-            <div class="button-group">
-                <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-itch-classic" target="_blank">PLAY NEBULA STRIKE</a>
-                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
-            </div>
         </div>
+    </section>
 
-        <div class="game-card edition-app">
-            <div>
-                <h2>MOVIE PLAYER</h2>
-                <p><strong>Bypass the mainstream trackers.</strong> A private, ultra-lean Android streaming container built directly on top of community infrastructure. Completely ad-free interface displaying dynamic layout systems without complex subscription overhead or trackers.</p>
-                
-                <ul class="features">
-                    <li>🎬 <strong>Zero-Maintenance Links:</strong> Dynamic core script pings community source repositories automatically on startup.</li>
-                    <li>🛡️ <strong>Adblock Inversion Shield:</strong> Hardened layout wrapper blocks native background redirects and overlay scripts.</li>
-                    <li>📺 <strong>Cinematic Immersive Mode:</strong> System notification bars and interface keys tuck away cleanly for cinematic viewports.</li>
-                    <li>🔄 <strong>Active State Syncing:</strong> Integrated DOM storage configurations securely preserve watch history locally.</li>
-                </ul>
+    <!-- ================= CATEGORY 3: TOOLS ================= -->
+    <section class="category-section">
+        <div class="category-title">🛠️ Utility & Development Tools</div>
+        <div class="container">
+
+            <!-- HOVER STATE DASHED BOX HOLDER FOR FUTURE ADDITIONS -->
+            <div class="game-card edition-tool">
+                <div>
+                    <h2>Developer Tools</h2>
+                    <p>Systems, build engines, and automated utilities are currently in standard pipeline development stages.</p>
+                </div>
+                <div class="button-group">
+                    <span class="btn" style="background-color: rgba(255,255,255,0.02); color: var(--accent-slate); border: 1px dashed rgba(255,255,255,0.05); cursor: not-allowed;">Pipeline Idle</span>
+                </div>
             </div>
 
-            <div class="button-group">
-                <a href="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk" class="btn btn-download-app">DOWNLOAD APK (6.9 MB)</a>
-                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
-            </div>
         </div>
-    </div>
+    </section>
 
     <footer>
-        &copy; 2026 Z3RR0_DEV.GAMES. All rights reserved.
+        <div>&copy; 2026 Z3RR0_DEV. All software rights reserved.</div>
+        <div>System Status: Online</div>
     </footer>
 
 </body>
