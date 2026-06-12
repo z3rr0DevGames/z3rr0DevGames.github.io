@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z3RR0_DEV // Portfolio</title>
+    <title>Z3RR0_DEV.GAMES // Hub</title>
     <style>
         :root {
             /* --- THEME MATRIX INDICES (DARK MODE DEFAULT) --- */
@@ -77,6 +77,7 @@
             font-weight: 800;
             letter-spacing: -0.03em;
             margin: 0;
+            text-transform: uppercase;
         }
         .header-main .subtitle {
             color: var(--text-secondary);
@@ -86,11 +87,12 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         
-        /* --- UTILITY COMPONENTS (THEME & STATUS) --- */
-        .theme-toggle {
+        /* --- UTILITY COMPONENTS --- */
+        .header-btn {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
@@ -102,6 +104,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            user-select: none;
         }
         .status-badge {
             display: flex;
@@ -115,6 +118,7 @@
             font-weight: 700;
             color: var(--accent-cyan);
             letter-spacing: 0.05em;
+            cursor: pointer;
         }
         .status-dot {
             width: 6px;
@@ -124,7 +128,7 @@
             box-shadow: 0 0 8px var(--accent-cyan);
         }
 
-        /* --- CONTROL ARRAYS (SEARCH & FILTERS) --- */
+        /* --- SEARCH & FILTERS --- */
         .search-wrapper {
             margin-top: 10px;
             margin-bottom: 25px;
@@ -140,7 +144,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 14px 16px 14px 44px;
+            padding: 14px 40px 14px 44px;
             font-size: 16px;
             color: var(--text-primary);
             box-sizing: border-box;
@@ -167,8 +171,22 @@
             background: var(--accent-slate);
             transform: rotate(45deg);
         }
+        .search-hint {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--accent-slate);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
 
-        /* Filter Pills Stack */
+        /* Filter Pills */
         .filter-tags-track {
             display: flex;
             gap: 8px;
@@ -183,7 +201,15 @@
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             transition: all 0.2s ease;
+        }
+        .filter-pill .pill-count {
+            font-family: monospace;
+            font-size: 0.75rem;
+            opacity: 0.6;
         }
         .filter-pill.active {
             background: var(--accent-cyan);
@@ -251,6 +277,7 @@
             .btn-indigo:hover { background-color: #818cf8; }
             .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
             .filter-pill:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+            .header-btn:hover { border-color: var(--accent-slate); }
         }
 
         .card-meta {
@@ -331,7 +358,7 @@
 
         .no-results-wrap { display: none; color: var(--text-secondary); margin: 40px auto; }
 
-        /* --- PERSISTENT CONSOLE DRAWER OVERLAY --- */
+        /* --- CONSOLE DRAWER OVERLAY --- */
         .console-drawer {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -368,7 +395,7 @@
         footer {
             margin-top: 80px;
             padding-top: 30px;
-            padding-bottom: 80px; /* Space clear buffer for terminal bar stack */
+            padding-bottom: 80px; 
             font-size: 0.85rem;
             color: var(--text-secondary);
             border-top: 1px solid var(--border-color);
@@ -377,12 +404,13 @@
             gap: 16px;
         }
 
-        /* --- MOBILE LAYOUT RULE ADAPTATIONS --- */
+        /* --- RESPONSIVE MOBILE ADJUSTMENTS --- */
         @media (max-width: 767px) {
             header { padding-top: 40px; }
             .header-main h1 { font-size: 1.9rem; }
             .button-group { flex-direction: column; }
             footer { flex-direction: column; align-items: flex-start; }
+            .search-hint { display: none; } /* Hide keystroke shortcuts on handheld layouts */
         }
         @media (max-width: 400px) {
             .game-card { padding: 24px 16px; }
@@ -394,33 +422,37 @@
 
     <header>
         <div class="header-main">
-            <h1>Z3RR0_DEV</h1>
+            <h1>Z3RR0_DEV.GAMES</h1>
             <div class="subtitle">Software Engineering & Digital Product Development</div>
         </div>
         <div class="header-actions">
-            <button class="theme-toggle" id="theme-btn">🌗 <span>Mode</span></button>
-            <div class="status-badge">
+            <button class="header-btn" id="share-btn">🔗 <span id="share-text">Share Link</span></button>
+            <button class="header-btn" id="theme-btn">🌗 <span>Theme</span></button>
+            <div class="status-badge" id="ping-badge">
                 <div class="status-dot"></div>
-                <span>LIVE</span>
+                <span id="ping-text">LIVE // 22ms</span>
             </div>
         </div>
     </header>
 
+    <!-- MATRIX CONTROLS -->
     <div class="search-wrapper">
         <div class="search-container">
             <div class="search-icon"></div>
             <input type="text" id="project-search" class="search-input" placeholder="Search parameters...">
+            <div class="search-hint">/</div>
         </div>
         <div class="filter-tags-track">
-            <div class="filter-pill active" data-filter="all">All Ecosystems</div>
-            <div class="filter-pill" data-filter="c#">Unity / C#</div>
-            <div class="filter-pill" data-filter="android">Android Core</div>
-            <div class="filter-pill" data-filter="web">Web Engine</div>
+            <div class="filter-pill active" data-filter="all">All Ecosystems <span class="pill-count" id="count-all">(0)</span></div>
+            <div class="filter-pill" data-filter="c#">Unity / C# <span class="pill-count" id="count-c#">(0)</span></div>
+            <div class="filter-pill" data-filter="android">Android Core <span class="pill-count" id="count-android">(0)</span></div>
+            <div class="filter-pill" data-filter="web">Web Engine <span class="pill-count" id="count-web">(0)</span></div>
         </div>
     </div>
 
-    <div class="no-results-wrap" id="no-results-msg">Terminal query returned empty stack trace.</div>
+    <div class="no-results-wrap" id="no-results-msg">Terminal query returned empty stack trace. Press [Esc] to clear filters.</div>
 
+    <!-- ================= Interactive Media ================= -->
     <section class="category-section" data-sec="media">
         <div class="category-title">
             <span>Interactive Media</span>
@@ -428,6 +460,7 @@
         </div>
         <div class="container">
             
+            <!-- NEBULA STRIKE 3D -->
             <div class="game-card" data-tags="web c# unity backend simulation">
                 <div>
                     <div class="card-meta">
@@ -450,6 +483,7 @@
                 </div>
             </div>
 
+            <!-- NEBULA STRIKE -->
             <div class="game-card" data-tags="web c# unity retro math automation">
                 <div>
                     <div class="card-meta">
@@ -475,6 +509,7 @@
         </div>
     </section>
 
+    <!-- ================= Production Software ================= -->
     <section class="category-section" data-sec="apps">
         <div class="category-title">
             <span>Production Software</span>
@@ -482,6 +517,7 @@
         </div>
         <div class="container">
 
+            <!-- MOVIE PLAYER -->
             <div class="game-card" data-tags="android java application media stream">
                 <div>
                     <div class="card-meta">
@@ -508,6 +544,7 @@
         </div>
     </section>
 
+    <!-- ================= STAGING MODULES ================= -->
     <section class="category-section" data-sec="tools">
         <div class="category-title">
             <span>Utility & Development Tools</span>
@@ -528,22 +565,24 @@
     </section>
 
     <footer>
-        <div>&copy; 2026 Z3RR0_DEV. Build validated.</div>
+        <div>&copy; 2026 Z3RR0_DEV.GAMES. Build validated.</div>
         <div>SysStatus: Production Stack Normal</div>
     </footer>
 
+    <!-- --- CONSOLE LOG DRAWER --- -->
     <div class="console-drawer" id="terminal-drawer">
         <div class="console-header" id="terminal-header">
             <span>⚡ SYSTEM CONSOLE LAYER // ACTIVE</span>
             <span id="terminal-indicator">[ OPEN ]</span>
         </div>
         <ul class="console-logs" id="log-target">
-            <li>[INFO 22:35:49] Port initialized safely at runtime block sequence.</li>
-            <li>[INFO 22:35:50] 03 Production environments isolated and linked.</li>
+            <li>[INFO] Domain network context localized to Z3RR0_DEV.GAMES.</li>
+            <li>[INFO] Keyboard listening listener mounted: [/] to query, [ESC] to flush.</li>
             <li>[READY] Secure state triggers running in structural alignment matrix.</li>
         </ul>
     </div>
 
+    <!-- --- CONTROL LOGIC INJECTOR --- -->
     <script>
         const searchInput = document.getElementById('project-search');
         const filterPills = document.querySelectorAll('.filter-pill');
@@ -559,6 +598,25 @@
             li.textContent = `[USER_EVENT ${time}] ${text}`;
             logTarget.appendChild(li);
             logTarget.scrollTop = logTarget.scrollHeight;
+        }
+
+        // METRICS: Dynamic Pills Quantifier Engine
+        function recalculatePillCounts() {
+            let tallies = { all: 0, 'c#': 0, android: 0, web: 0 };
+            
+            cards.forEach(card => {
+                if (card.classList.contains('edition-tool')) return;
+                const tags = card.getAttribute('data-tags') || '';
+                tallies.all++;
+                if (tags.includes('c#')) tallies['c#']++;
+                if (tags.includes('android')) tallies.android++;
+                if (tags.includes('web')) tallies.web++;
+            });
+
+            for (let key in tallies) {
+                const badge = document.getElementById(`count-${key}`);
+                if (badge) badge.innerText = `(${tallies[key]})`;
+            }
         }
 
         // CONTROL: Unified Filtering Matrix Engine
@@ -587,9 +645,7 @@
             document.getElementById('no-results-msg').style.display = (visibleUnits === 0 && textQuery !== '') ? 'block' : 'none';
         }
 
-        searchInput.addEventListener('input', (e) => {
-            filterMatrix();
-        });
+        searchInput.addEventListener('input', () => filterMatrix());
 
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
@@ -627,20 +683,62 @@
             }, 150);
         });
 
-        // UTILITY: Modern Layout Theme Toggle Switch
+        // ACTION: Clipboard Node Sharing Execution
+        document.getElementById('share-btn').addEventListener('click', function() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const textNode = document.getElementById('share-text');
+                textNode.innerText = "Copied!";
+                appendLog("System URL buffered to native desktop clipboard register safely.");
+                setTimeout(() => { textNode.innerText = "Share Link"; }, 2000);
+            }).catch(() => {
+                appendLog("[WARN] Clipboard write pipeline permissions faulted.");
+            });
+        });
+
+        // ACCESSIBILITY: Hotkey Hooks
+        window.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+                appendLog("Search vector focused via keybind keyboard trigger.");
+            }
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                filterMatrix();
+                searchInput.blur();
+                appendLog("Flushed input arrays and reset running filters.");
+            }
+        });
+
+        // TELEMETRY: Mock Ping Fluctuations
+        const pingText = document.getElementById('ping-text');
+        setInterval(() => {
+            const simulatedPing = Math.floor(Math.random() * 15) + 15;
+            pingText.innerText = `LIVE // ${simulatedPing}ms`;
+        }, 4000);
+
+        document.getElementById('ping-badge').addEventListener('click', () => {
+            appendLog("Running routing trace... Gateway routing paths optimal. No packet drop detected.");
+        });
+
+        // UTILITY: Theme Switcher
         document.getElementById('theme-btn').addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
             const mode = document.body.classList.contains('light-theme') ? "LIGHT_ENVIRONMENT" : "DARK_ENVIRONMENT";
             appendLog(`Viewport system architecture shifted to state: [${mode}]`);
         });
 
-        // UTILITY: Console Terminal Sliding Functionality
+        // UTILITY: Terminal Slide Toggle
         const drawer = document.getElementById('terminal-drawer');
         const indicator = document.getElementById('terminal-indicator');
         document.getElementById('terminal-header').addEventListener('click', () => {
             drawer.classList.toggle('open');
             indicator.innerText = drawer.classList.contains('open') ? "[ MINIMIZE ]" : "[ OPEN ]";
         });
+
+        // Initialize counters on load
+        recalculatePillCounts();
     </script>
 
 </body>
