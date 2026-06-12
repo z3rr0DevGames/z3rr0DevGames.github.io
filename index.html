@@ -33,29 +33,28 @@
         
         /* --- RESPONSIVE GRID ENGINE --- */
         .container {
-            max-width: 1200px; /* Expanded to fit side-by-side grid panels */
+            max-width: 1400px; 
             margin: 40px auto;
             padding: 0 20px;
             display: flex;
             flex-direction: row;
             gap: 30px;
             justify-content: center;
-            align-items: stretch; /* Forces both cards to match equal height automatically */
+            align-items: stretch; 
         }
 
         .game-card {
             background-color: #1f2833;
             border-radius: 12px;
             padding: 35px 25px;
-            flex: 1; /* Distributes width equally */
+            flex: 1; 
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Keeps action buttons locked perfectly to the card baseline */
+            justify-content: space-between; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Subtle hover lift effect */
         .game-card:hover {
             transform: translateY(-5px);
         }
@@ -76,6 +75,15 @@
         }
         .game-card.edition-classic:hover {
             box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
+        }
+
+        /* Card 3: Personal Movie App Theme Accent */
+        .game-card.edition-app {
+            border: 2px solid #ffcc00; /* Streaming Gold */
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+        }
+        .game-card.edition-app:hover {
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
         }
 
         h2 {
@@ -102,7 +110,7 @@
             list-style-type: square;
         }
         .button-group {
-            margin-top: auto; /* Glues action row right at the base */
+            margin-top: auto; 
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -133,8 +141,16 @@
             background-color: #ff409f;
             box-shadow: 0 0 15px #ff409f;
         }
+        .btn-download-app {
+            background-color: #ffcc00;
+            color: #0b0c10;
+        }
+        .btn-download-app:hover {
+            background-color: #ffe066;
+            box-shadow: 0 0 15px #ffcc00;
+        }
         .btn-discord {
-            background-color: #5865F2; /* Discord Blurple */
+            background-color: #5865F2; 
             color: #fff;
         }
         .btn-discord:hover {
@@ -149,10 +165,9 @@
             border-top: 1px solid #1f2833;
         }
 
-        /* --- MOBILE VIEWPORTS RULES --- */
-        @media (max-width: 868px) {
+        @media (max-width: 1024px) { 
             .container {
-                flex-direction: column; /* Safely stacks cards vertically on mobile screen devices */
+                flex-direction: column; 
                 max-width: 550px;
             }
             .game-card {
@@ -203,6 +218,25 @@
 
             <div class="button-group">
                 <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-itch-classic" target="_blank">PLAY NEBULA STRIKE</a>
+                <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
+            </div>
+        </div>
+
+        <div class="game-card edition-app">
+            <div>
+                <h2>Z3RR0_FLIX PLAYER</h2>
+                <p><strong>Bypass the mainstream trackers.</strong> A private, ultra-lean Android streaming container built directly on top of community infrastructure. Completely ad-free interface displaying dynamic layout systems without complex subscription overhead or trackers.</p>
+                
+                <ul class="features">
+                    <li>🎬 <strong>Zero-Maintenance Links:</strong> Dynamic core script pings community source repositories automatically on startup.</li>
+                    <li>🛡️ <strong>Adblock Inversion Shield:</strong> Hardened layout wrapper blocks native background redirects and overlay scripts.</li>
+                    <li>📺 <strong>Cinematic Immersive Mode:</strong> System notification bars and interface keys tuck away cleanly for cinematic viewports.</li>
+                    <li>🔄 <strong>Active State Syncing:</strong> Integrated DOM storage configurations securely preserve watch history locally.</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <a href="movie-app.apk" download="Z3RR0_Flix.apk" class="btn btn-download-app">DOWNLOAD APK (6.9 MB)</a>
                 <a href="https://discord.gg/NbsZ48aecM" class="btn btn-discord" target="_blank">JOIN OUR DISCORD</a>
             </div>
         </div>
