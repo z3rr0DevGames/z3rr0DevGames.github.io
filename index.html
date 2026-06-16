@@ -421,7 +421,7 @@
         </div>
         <div class="telemetry-card">
             <div class="telemetry-label">Software Builds</div>
-            <div class="telemetry-value" id="dash-build-count">03 Localized</div>
+            <div class="telemetry-value" id="dash-build-count">02 Localized</div>
         </div>
         <div class="telemetry-card">
             <div class="telemetry-label">Core Architecture</div>
@@ -503,40 +503,6 @@
                 </div>
                 <div class="button-group">
                     <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="category-section" data-sec="apps">
-        <div class="category-title">
-            <span>Production Software Containers</span>
-            <div class="category-tag">01 RUNTIME</div>
-        </div>
-        <div class="container">
-            <div class="game-card" data-tags="android java application media stream">
-                <div>
-                    <div class="card-meta">
-                        <span class="meta-label">PLATFORM // ANDROID</span>
-                        <span class="meta-label" style="color: var(--accent-indigo);">RELEASE TARGET</span>
-                    </div>
-                    <h2>Movie Player</h2>
-                    <p>A zero-overhead, tracking-free Android container engineered for clean data parsing and media stream rendering.</p>
-                    <ul class="features">
-                        <li><strong>API Routing:</strong> Asynchronous remote server query scripts run instantly.</li>
-                        <li><strong>Security Layer:</strong> Integrated wrapper blocking native background redirects.</li>
-                    </ul>
-
-                    <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
-                    <div class="tech-spec-panel">
-                        <div class="spec-row"><span>Core Build Target</span><span class="spec-v">Android API 33 (Java)</span></div>
-                        <div class="spec-row"><span>Media Handler</span><span class="spec-v">ExoPlayer Core Context</span></div>
-                        <div class="spec-row"><span>Tracking Shield</span><span class="spec-v">Manifest Filter Rule</span></div>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button class="btn btn-indigo" id="dl-btn" data-url="https://github.com/z3rr0DevGames/z3rr0DevGames.github.io/releases/download/movie/app-debug.apk">Download APK (6.9 MB)</button>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
@@ -687,28 +653,6 @@
                 panel.classList.toggle('expanded');
                 appendLog("Altered metadata structural visibility dropdown matrix.");
             });
-        });
-
-        document.getElementById('dl-btn').addEventListener('click', function(e) {
-            const btn = e.target;
-            if(btn.disabled) return;
-            btn.disabled = true;
-            appendLog("Triggering build parsing sequence...");
-            let progress = 0;
-            const timer = setInterval(() => {
-                progress += Math.floor(Math.random() * 25) + 15;
-                if(progress >= 100) {
-                    clearInterval(timer);
-                    btn.innerText = "Deployment Success";
-                    setTimeout(() => {
-                        window.location.href = btn.getAttribute('data-url');
-                        btn.disabled = false;
-                        btn.innerText = "Download APK (6.9 MB)";
-                    }, 500);
-                } else {
-                    btn.innerText = `Compiling... ${Math.min(progress, 99)}%`;
-                }
-            }, 100);
         });
 
         document.getElementById('share-btn').addEventListener('click', function() {
