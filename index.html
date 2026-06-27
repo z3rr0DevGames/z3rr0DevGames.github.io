@@ -292,6 +292,7 @@
             .btn-indigo:hover { background-color: #818cf8; }
             .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
             .tech-toggle:hover { color: var(--text-primary); }
+            .overlay-close-btn:hover { background: var(--logo-red); color: #fff; }
         }
 
         .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; }
@@ -334,6 +335,72 @@
         
         .game-card.edition-tool { background-color: transparent; border: 1px dashed var(--border-color); }
         .no-results-wrap { display: none; color: var(--text-secondary); margin: 40px auto; }
+
+        /* ================= FRIV-STYLE ARCADE LAYER OVERLAY ================= */
+        #arcade-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(7, 8, 10, 0.98);
+            z-index: 5000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+        body.light-theme #arcade-overlay {
+            background: rgba(248, 250, 252, 0.98);
+        }
+        .arcade-container {
+            width: 100%;
+            max-width: 1024px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .arcade-bar {
+            background: rgba(0,0,0,0.2);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .arcade-title-text {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.05em;
+        }
+        .overlay-close-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .iframe-viewport-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Fixed aspect ratio execution matrix */
+            background: #000;
+        }
+        #arcade-frame {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: none;
+        }
 
         /* --- REPOSITORY ACTIVITY MATRIX --- */
         .activity-grid-wrap {
@@ -385,6 +452,8 @@
             .button-group { flex-direction: column; }
             footer { flex-direction: column; align-items: flex-start; }
             .search-hint { display: none; }
+            .arcade-container { border-radius: 0; }
+            #arcade-overlay { padding: 0; }
         }
     </style>
 </head>
@@ -396,6 +465,18 @@
             <h1 class="zdg-monogram">ZDG</h1>
             <div class="zdg-fulltext"><span>Z</span>ERRØDEV <span>G</span>AMES</div>
             <div class="zdg-subtext">Portfolio Hub</div>
+        </div>
+    </div>
+
+    <div id="arcade-overlay">
+        <div class="arcade-container">
+            <div class="arcade-bar">
+                <span class="arcade-title-text" id="arcade-current-title">EXECUTE // RUNTIME_MODULE</span>
+                <button class="overlay-close-btn" onclick="closeArcadeViewport()">[ TERMINATE_PROCESS ]</button>
+            </div>
+            <div class="iframe-viewport-wrapper">
+                <iframe id="arcade-frame" src="about:blank" allow="autoplay; fullscreen; keyboard" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+            </div>
         </div>
     </div>
 
@@ -476,7 +557,7 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
+                    <button class="btn btn-cyan" onclick="launchArcadeViewport('Nebula Strike 3D', 'https://gabrielecirulli.github.io/2048/')">Launch Runtime</button>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
@@ -502,7 +583,7 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-cyan" target="_blank">Launch (itch.io)</a>
+                    <button class="btn btn-cyan" onclick="launchArcadeViewport('Nebula Strike (Legacy)', 'https://hextris.io/hextris/')">Launch Runtime</button>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
@@ -560,6 +641,7 @@
                 
                 // Unlock body scroll once clear
                 document.body.style.overflowY = 'auto';
+                document.body.style.overflowX = 'hidden';
                 appendLog("Splash layer pipeline detached. Core viewport focus unlinked.");
             }, 3000);
         });
@@ -570,6 +652,30 @@
             li.textContent = `[USER_EVENT ${time}] ${text}`;
             logTarget.appendChild(li);
             logTarget.scrollTop = logTarget.scrollHeight;
+        }
+
+        // ================= ARCADE VIEWPORT FRAME ENGINE MAPPING =================
+        function launchArcadeViewport(gameTitle, gameUrl) {
+            appendLog(`Initializing execution loop for asset module: [${gameTitle.toUpperCase()}]`);
+            
+            document.getElementById('arcade-current-title').innerText = `EXECUTE // RUNTIME_MODULE: ${gameTitle.toUpperCase()}`;
+            
+            const frame = document.getElementById('arcade-frame');
+            frame.src = gameUrl;
+            
+            document.getElementById('arcade-overlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Force freeze background scrolling viewport
+        }
+
+        function closeArcadeViewport() {
+            appendLog("Interrupt signal received. Terminating runtime frame execution pipeline.");
+            
+            const frame = document.getElementById('arcade-frame');
+            frame.src = 'about:blank'; // Destroy active page processing script/audio context
+            
+            document.getElementById('arcade-overlay').style.display = 'none';
+            document.body.style.overflowY = 'auto'; // Restore grid interaction scroll rules
+            document.body.style.overflowX = 'hidden';
         }
 
         // --- RENDER DYNAMIC ACTIVITY GRID CELLS ---
@@ -669,7 +775,11 @@
                 e.preventDefault(); searchInput.focus(); searchInput.select();
             }
             if (e.key === 'Escape') {
-                searchInput.value = ''; filterMatrix(); searchInput.blur();
+                if (document.getElementById('arcade-overlay').style.display === 'flex') {
+                    closeArcadeViewport();
+                } else {
+                    searchInput.value = ''; filterMatrix(); searchInput.blur();
+                }
             }
         });
 
