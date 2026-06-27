@@ -82,7 +82,7 @@
         .zdg-subtext { font-size: 1.4rem; font-weight: 500; letter-spacing: 0.45em; color: #cccccc; margin-top: 6px; text-transform: uppercase; padding-left: 0.45em; }
 
         @keyframes flashText { 0% { opacity: 0; } 10% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
-        @keyframes revealLogo { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); filter: blur(0); } }
+        @keyframes revealLogo { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
         /* --- CORE INTERFACE LAYOUT --- */
         header, .telemetry-dashboard, .search-wrapper, .category-section, footer, .no-results-wrap {
@@ -147,6 +147,8 @@
         .friv-tile:hover { transform: scale(1.04); border-color: var(--accent-cyan); background: var(--bg-card-hover); }
         .friv-icon { font-size: 2rem; margin-bottom: 8px; }
         .friv-name { font-size: 0.75rem; font-weight: 700; font-family: monospace; text-transform: uppercase; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+        .friv-badge { font-size: 0.55rem; font-weight: 800; background: var(--accent-indigo); color: #fff; padding: 2px 5px; border-radius: 3px; margin-top: 4px; letter-spacing: 0.05em; }
+        .friv-badge.flash { background: #ea580c; }
         
         /* --- INTEGRATED FULL-SIZE PLAY ENGINE PANEL --- */
         #portal-runtime-panel { display: none; background: #000; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 25px; overflow: hidden; }
@@ -154,8 +156,8 @@
         .runtime-title { font-family: monospace; font-weight: 700; font-size: 0.85rem; color: var(--accent-cyan); }
         .close-runtime-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: #fff; padding: 4px 12px; font-family: monospace; font-size: 0.75rem; border-radius: 4px; cursor: pointer; }
         .close-runtime-btn:hover { background: var(--logo-red); }
-        .viewport-container { position: relative; width: 100%; padding-top: 56.25%; }
-        .viewport-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .viewport-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        .viewport-container iframe, #flash-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         /* --- SUB SYSTEMS & ANALYTICS --- */
         .activity-grid-wrap { display: grid; grid-template-columns: 1fr; gap: 16px; background: var(--bg-card); border: 1px solid var(--border-color); padding: 24px; border-radius: 12px; }
@@ -175,6 +177,7 @@
 
         footer { margin-top: 80px; padding-top: 30px; padding-bottom: 80px; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; gap: 16px; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ruffle-rs/0.2.0-nightly.2025.9.29/ruffle.js"></script>
 </head>
 <body>
 
@@ -231,7 +234,6 @@
         </div>
     </div>
 
-    <!-- MAIN PORTFOLIO VIEW MASK -->
     <section class="category-section" id="portfolio-main-section">
         <div class="category-title">
             <span>Interactive Media Modules</span>
@@ -287,40 +289,48 @@
         </div>
     </section>
 
-    <!-- STANDALONE FRIV WEB GAME ENGINE MATRIX -->
     <section class="category-section" id="arcade-portal-section">
         <div class="category-title">
             <span>Integrated Web Game Matrix</span>
             <div class="category-tag">FRIV STACK DIRECTORY</div>
         </div>
 
-        <!-- Inline Live Viewport Module -->
         <div id="portal-runtime-panel">
             <div class="runtime-control-bar">
                 <span class="runtime-title" id="runtime-active-title">RUNTIME ENGINE: IDLE</span>
                 <button class="close-runtime-btn" onclick="terminatePortalEngine()">[ TERMINATE EMULATION ]</button>
             </div>
             <div class="viewport-container">
+                <div id="flash-container" style="display:none;"></div>
                 <iframe id="portal-frame" src="about:blank" allow="autoplay; fullscreen; keyboard" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
             </div>
         </div>
 
         <div class="friv-grid">
-            <div class="friv-tile" onclick="bootPortalEngine('2048 Puzzle', 'https://gabrielecirulli.github.io/2048/')">
-                <div class="friv-icon">🔢</div>
-                <div class="friv-name">2048 Engine</div>
-            </div>
-            <div class="friv-tile" onclick="bootPortalEngine('Hextris Rotation', 'https://hextris.io/hextris/')">
-                <div class="friv-icon">🔷</div>
-                <div class="friv-name">Hextris</div>
-            </div>
-            <div class="friv-tile" onclick="bootPortalEngine('Snake Emulation', 'https://thesnakegame.github.io/')">
-                <div class="friv-icon">🐍</div>
-                <div class="friv-name">Classic Snake</div>
-            </div>
-            <div class="friv-tile" onclick="bootPortalEngine('Pacman Simulation', 'https://pacman.live/play.html')">
+            <div class="friv-tile" onclick="bootPortalEngine('Pacman Simulation', 'https://pacman.live/play.html', false)">
                 <div class="friv-icon">🟡</div>
                 <div class="friv-name">Pacman Web</div>
+                <div class="friv-badge">HTML5</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Snake Emulation', 'https://thesnakegame.github.io/', false)">
+                <div class="friv-icon">🐍</div>
+                <div class="friv-name">Classic Snake</div>
+                <div class="friv-badge">HTML5</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Tetris Arcade', 'https://chvin.github.io/react-tetris/', false)">
+                <div class="friv-icon">🧱</div>
+                <div class="friv-name">Tetris Matrix</div>
+                <div class="friv-badge">HTML5</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Space Invaders', 'https://neave.com/games/space-invaders/', false)">
+                <div class="friv-icon">👾</div>
+                <div class="friv-name">Invaders</div>
+                <div class="friv-badge">HTML5</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Flash Demo Movie', 'https://e9x.github.io/ruffle-example/1on1soccer_24.swf', true)">
+                <div class="friv-icon">⚡</div>
+                <div class="friv-name">Flash Retro Demo</div>
+                <div class="friv-badge flash">SWF FLASH</div>
             </div>
         </div>
     </section>
@@ -352,6 +362,7 @@
 
     <script>
         const logTarget = document.getElementById('log-target');
+        let rufflePlayerInstance = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             generateActivityMatrix();
@@ -360,7 +371,7 @@
                 splash.style.opacity = '0';
                 splash.style.visibility = 'hidden';
                 document.body.style.overflowY = 'auto';
-                appendLog("Main environment initialization finalized.");
+                appendLog("Main environment initialization finalized. Ruffle Emulation layer armed.");
             }, 3000);
         });
 
@@ -388,17 +399,53 @@
         }
 
         /* --- PORTAL ENGINE SIMULATION CONTROL --- */
-        function bootPortalEngine(name, url) {
-            appendLog(`Mounting virtual instance frame for sandbox module: ${name}`);
+        function bootPortalEngine(name, url, isFlash) {
+            terminatePortalEngine();
             document.getElementById('portal-runtime-panel').style.display = 'block';
-            document.getElementById('runtime-active-title').innerText = `RUNTIME EMULATION ENGINE // EXECUTING: ${name.toUpperCase()}`;
-            document.getElementById('portal-frame').src = url;
+            
+            const frameEl = document.getElementById('portal-frame');
+            const flashContainer = document.getElementById('flash-container');
+
+            if (isFlash) {
+                appendLog(`Spawning Ruffle WebAssembly sandbox layer for Flash SWF binary: ${name}`);
+                document.getElementById('runtime-active-title').innerText = `RUFFLE EMULATION ENGINE // EXECUTING: ${name.toUpperCase()}`;
+                
+                frameEl.style.display = 'none';
+                flashContainer.style.display = 'block';
+                flashContainer.innerHTML = '';
+
+                try {
+                    const ruffle = window.RufflePlayer.newest();
+                    rufflePlayerInstance = ruffle.createPlayer();
+                    flashContainer.appendChild(rufflePlayerInstance);
+                    
+                    rufflePlayerInstance.style.width = "100%";
+                    rufflePlayerInstance.style.height = "100%";
+                    
+                    rufflePlayerInstance.load({ url: url });
+                } catch (err) {
+                    appendLog(`ERROR initializing Flash emulator core structural pipeline: ${err.message}`);
+                }
+            } else {
+                appendLog(`Mounting virtual iframe instance for HTML5 module: ${name}`);
+                document.getElementById('runtime-active-title').innerText = `RUNTIME EMULATION ENGINE // EXECUTING: ${name.toUpperCase()}`;
+                
+                flashContainer.style.display = 'none';
+                frameEl.style.display = 'block';
+                frameEl.src = url;
+            }
+
             window.scrollTo({ top: document.getElementById('portal-runtime-panel').offsetTop - 20, behavior: 'smooth' });
         }
 
         function terminatePortalEngine() {
             document.getElementById('portal-runtime-panel').style.display = 'none';
             document.getElementById('portal-frame').src = 'about:blank';
+            
+            const flashContainer = document.getElementById('flash-container');
+            flashContainer.innerHTML = '';
+            flashContainer.style.display = 'none';
+            rufflePlayerInstance = null;
         }
 
         function generateActivityMatrix() {
