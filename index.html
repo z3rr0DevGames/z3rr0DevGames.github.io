@@ -20,8 +20,6 @@
             --console-bg: #0d0f14;
             --grid-green: #22c55e;
             --grid-green-low: rgba(34, 197, 94, 0.2);
-            
-            /* Splash Element Extensions matching your attached asset colorway */
             --logo-red: #dc2626;
             --logo-red-glow: rgba(220, 38, 38, 0.35);
         }
@@ -42,7 +40,6 @@
             --grid-green-low: rgba(22, 163, 74, 0.15);
         }
 
-        /* --- PREVENT SCROLL UNTIL BOOT FINISHES --- */
         body {
             background-color: var(--bg-main);
             background-image: 
@@ -55,10 +52,10 @@
             padding: 0;
             line-height: 1.5;
             overflow-x: hidden;
-            overflow-y: hidden; /* JavaScript will restore this after splash clears */
+            overflow-y: hidden;
         }
 
-        /* ================= SPLASH LAYER CSS STRUCTURE ================= */
+        /* --- SPLASH LAYER --- */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -70,391 +67,113 @@
             align-items: center;
             transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
         }
-
         .splash-terminal-log {
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: var(--accent-cyan);
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            opacity: 0;
-            animation: flashText 1.2s forwards;
+            font-family: monospace; font-size: 0.8rem; color: var(--accent-cyan);
+            margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.1em;
+            opacity: 0; animation: flashText 1.2s forwards;
         }
-
         .splash-logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.96);
-            animation: revealLogo 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            opacity: 0; transform: scale(0.96); animation: revealLogo 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
         }
+        .zdg-monogram { font-size: 6.5rem; font-weight: 900; color: var(--logo-red); line-height: 0.9; text-shadow: 0 0 30px var(--logo-red-glow); margin: 0; }
+        .zdg-fulltext { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; margin-top: 16px; color: #ffffff; }
+        .zdg-fulltext span { color: var(--logo-red); }
+        .zdg-subtext { font-size: 1.4rem; font-weight: 500; letter-spacing: 0.45em; color: #cccccc; margin-top: 6px; text-transform: uppercase; padding-left: 0.45em; }
 
-        .zdg-monogram {
-            font-size: 6.5rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            color: var(--logo-red);
-            line-height: 0.9;
-            text-shadow: 0 0 30px var(--logo-red-glow);
-            margin: 0;
-        }
+        @keyframes flashText { 0% { opacity: 0; } 10% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes revealLogo { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
 
-        .zdg-fulltext {
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            margin-top: 16px;
-            color: #ffffff;
-        }
-        
-        .zdg-fulltext span {
-            color: var(--logo-red);
-        }
-
-        .zdg-subtext {
-            font-size: 1.4rem;
-            font-weight: 500;
-            letter-spacing: 0.45em;
-            color: #cccccc;
-            margin-top: 6px;
-            text-transform: uppercase;
-            padding-left: 0.45em; /* Perfectly balances outer letter-spacing track */
-        }
-
-        /* --- SPLASH TIMING KEYFRAMES --- */
-        @keyframes flashText {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        @keyframes revealLogo {
-            0% { opacity: 0; transform: scale(0.96); filter: blur(4px); }
-            100% { opacity: 1; transform: scale(1); filter: blur(0); }
-        }
-
-        /* ================= CORE HUB INTERFACE LAYOUT ================= */
+        /* --- CORE INTERFACE LAYOUT --- */
         header, .telemetry-dashboard, .search-wrapper, .category-section, footer, .no-results-wrap {
-            max-width: 1300px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 24px;
-            padding-right: 24px;
+            max-width: 1300px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px;
         }
-
-        header {
-            padding-top: 50px;
-            padding-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .header-main h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin: 0;
-            text-transform: uppercase;
-        }
-        .header-main .subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-top: 6px;
-        }
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        header { padding-top: 50px; padding-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+        .header-main h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin: 0; text-transform: uppercase; }
+        .header-main .subtitle { color: var(--text-secondary); font-size: 1rem; margin-top: 6px; }
         
-        .header-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .status-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(6, 182, 212, 0.06);
-            border: 1px solid rgba(6, 182, 212, 0.15);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--accent-cyan);
-            letter-spacing: 0.05em;
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--accent-cyan);
-            border-radius: 50%;
-        }
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .header-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .status-badge { display: flex; align-items: center; gap: 8px; background: rgba(6, 182, 212, 0.06); border: 1px solid rgba(6, 182, 212, 0.15); padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.05em; }
+        .status-dot { width: 6px; height: 6px; background-color: var(--accent-cyan); border-radius: 50%; }
 
-        /* --- METRICS INDEX --- */
-        .telemetry-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .telemetry-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 14px 18px;
-            border-radius: 8px;
-        }
-        .telemetry-label {
-            font-family: monospace; font-size: 0.7rem; color: var(--accent-slate);
-            text-transform: uppercase; letter-spacing: 0.08em;
-        }
-        .telemetry-value {
-            font-size: 1.1rem; font-weight: 700; margin-top: 4px; font-family: monospace;
-        }
+        .telemetry-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .telemetry-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 18px; border-radius: 8px; }
+        .telemetry-label { font-family: monospace; font-size: 0.7rem; color: var(--accent-slate); text-transform: uppercase; letter-spacing: 0.08em; }
+        .telemetry-value { font-size: 1.1rem; font-weight: 700; margin-top: 4px; font-family: monospace; }
 
-        /* --- MATRIX FILTERS --- */
-        .search-wrapper {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+        .search-wrapper { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
         .search-container { position: relative; width: 100%; max-width: 450px; }
-        .search-input {
-            width: 100%; background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 8px; padding: 14px 40px 14px 44px; font-size: 16px;
-            color: var(--text-primary); box-sizing: border-box;
-        }
+        .search-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px 40px 14px 44px; font-size: 16px; color: var(--text-primary); box-sizing: border-box; }
         .search-input:focus { outline: none; border-color: var(--accent-cyan); }
-        .search-icon {
-            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-            width: 14px; height: 14px; border: 2px solid var(--accent-slate); border-radius: 50%;
-        }
-        .search-icon::after {
-            content: ''; position: absolute; right: -5px; bottom: -5px;
-            width: 6px; height: 2px; background: var(--accent-slate); transform: rotate(45deg);
-        }
-        .search-hint {
-            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
-            font-family: monospace; font-size: 0.75rem; color: var(--accent-slate);
-            background: rgba(255, 255, 255, 0.04); padding: 2px 6px; border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .filter-tags-track { display: flex; gap: 8px; flex-wrap: wrap; }
-        .filter-pill {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            color: var(--text-secondary); padding: 8px 16px; border-radius: 20px;
-            font-size: 0.8rem; font-weight: 600; cursor: pointer;
-        }
-        .filter-pill.active { background: var(--accent-cyan); color: #000 !important; border-color: var(--accent-cyan); }
-
-        /* --- CARDS GRID --- */
-        .category-section { margin-top: 20px; margin-bottom: 40px; }
-        .category-title {
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
-            border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 24px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .category-tag {
-            font-size: 0.7rem; background: var(--bg-card); border: 1px solid var(--border-color);
-            padding: 2px 8px; border-radius: 4px; color: var(--text-secondary);
-        }
         
+        .filter-tags-track { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .filter-pill { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .filter-pill.active { background: var(--accent-cyan); color: #000 !important; border-color: var(--accent-cyan); }
+        
+        .arcade-portal-trigger { background: var(--bg-card); border: 1px dashed var(--accent-cyan); color: var(--accent-cyan); font-family: monospace; padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+        .arcade-portal-trigger:hover { background: rgba(6, 182, 212, 0.1); }
+
+        /* --- PORTFOLIO MODULE CARDS --- */
+        .category-section { margin-top: 20px; margin-bottom: 40px; }
+        .category-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; }
+        .category-tag { font-size: 0.7rem; background: var(--bg-card); border: 1px solid var(--border-color); padding: 2px 8px; border-radius: 4px; color: var(--text-secondary); }
         .container { display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px; }
-
-        .game-card {
-            background-color: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 30px 24px; flex: 1 1 380px; max-width: 100%;
-            display: flex; flex-direction: column; justify-content: space-between;
-            box-sizing: border-box; transform: translateZ(0); will-change: transform; 
-        }
-
-        @media (hover: hover) {
-            .game-card:hover { background-color: var(--bg-card-hover); border-color: var(--border-hover); }
-            .btn-cyan:hover { background-color: #22d3ee; }
-            .btn-indigo:hover { background-color: #818cf8; }
-            .btn-slate:hover { background-color: rgba(255, 255, 255, 0.08); }
-            .tech-toggle:hover { color: var(--text-primary); }
-            .overlay-close-btn:hover { background: var(--logo-red); color: #fff; }
-        }
-
+        
+        .game-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px 24px; flex: 1 1 380px; max-width: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
+        .game-card:hover { background-color: var(--bg-card-hover); border-color: var(--border-hover); }
         .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; }
         .meta-label { font-size: 0.75rem; font-family: monospace; color: var(--accent-slate); letter-spacing: 0.05em; }
-
         h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 12px 0; letter-spacing: -0.01em; }
         p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px; }
-        
         .features { margin: 0 0 20px 0; padding-left: 18px; }
         .features li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-secondary); list-style-type: square; }
-        .features strong { color: var(--text-primary); font-weight: 500; }
-
-        .tech-toggle {
-            background: none; border: none; color: var(--accent-slate); font-family: monospace;
-            font-size: 0.78rem; font-weight: 700; padding: 6px 0; margin-bottom: 20px;
-            cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: max-content;
-        }
-        .tech-spec-panel {
-            background: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 0; margin-bottom: 25px;
-            max-height: 0; overflow: hidden; transition: all 0.2s ease-out; font-family: monospace; font-size: 0.78rem;
-        }
-        body.light-theme .tech-spec-panel { background: rgba(0, 0, 0, 0.02); }
+        
+        .tech-toggle { background: none; border: none; color: var(--accent-slate); font-family: monospace; font-size: 0.78rem; font-weight: 700; padding: 6px 0; margin-bottom: 20px; cursor: pointer; }
+        .tech-spec-panel { background: rgba(0, 0, 0, 0.15); border-radius: 6px; padding: 0; margin-bottom: 25px; max-height: 0; overflow: hidden; transition: all 0.2s ease-out; font-family: monospace; font-size: 0.78rem; }
         .tech-spec-panel.expanded { padding: 12px 16px; max-height: 180px; border: 1px solid var(--border-color); }
         .spec-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
         .spec-v { color: var(--accent-cyan); }
 
-        /* --- ACTION TRIGGERS --- */
         .button-group { margin-top: auto; display: flex; flex-direction: row; gap: 10px; }
-        .btn {
-            flex: 1; display: block; padding: 14px 16px; font-weight: 600;
-            text-decoration: none; border-radius: 6px; font-size: 0.88rem; text-align: center;
-            box-sizing: border-box; cursor: pointer; border: none;
-        }
-        .btn-cyan { background-color: var(--accent-cyan); color: #000; }
+        .btn { flex: 1; display: block; padding: 14px 16px; font-weight: 600; text-decoration: none; border-radius: 6px; font-size: 0.88rem; text-align: center; box-sizing: border-box; cursor: pointer; border: none; }
         .btn-indigo { background-color: var(--accent-indigo); color: #fff; }
-        .btn-slate {
-            background-color: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid var(--border-color);
-        }
-        body.light-theme .btn-slate { background-color: rgba(0, 0, 0, 0.02); }
+        .btn-slate { background-color: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid var(--border-color); }
+
+        /* ================= NEW: FRIV ARCADE PORTAL VIEW MODE ================= */
+        #arcade-portal-section { display: none; margin-top: 20px; margin-bottom: 40px; }
+        .friv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+        .friv-tile { background: var(--bg-card); border: 1px solid var(--border-color); aspect-ratio: 1 / 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; text-align: center; padding: 10px; box-sizing: border-box; transition: transform 0.15s ease, border-color 0.15s ease; }
+        .friv-tile:hover { transform: scale(1.04); border-color: var(--accent-cyan); background: var(--bg-card-hover); }
+        .friv-icon { font-size: 2rem; margin-bottom: 8px; }
+        .friv-name { font-size: 0.75rem; font-weight: 700; font-family: monospace; text-transform: uppercase; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
         
-        .game-card.edition-tool { background-color: transparent; border: 1px dashed var(--border-color); }
-        .no-results-wrap { display: none; color: var(--text-secondary); margin: 40px auto; }
+        /* --- INTEGRATED FULL-SIZE PLAY ENGINE PANEL --- */
+        #portal-runtime-panel { display: none; background: #000; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 25px; overflow: hidden; }
+        .runtime-control-bar { background: var(--bg-card); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .runtime-title { font-family: monospace; font-weight: 700; font-size: 0.85rem; color: var(--accent-cyan); }
+        .close-runtime-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: #fff; padding: 4px 12px; font-family: monospace; font-size: 0.75rem; border-radius: 4px; cursor: pointer; }
+        .close-runtime-btn:hover { background: var(--logo-red); }
+        .viewport-container { position: relative; width: 100%; padding-top: 56.25%; }
+        .viewport-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* ================= FRIV-STYLE ARCADE LAYER OVERLAY ================= */
-        #arcade-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(7, 8, 10, 0.98);
-            z-index: 5000;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            padding: 20px;
-        }
-        body.light-theme #arcade-overlay {
-            background: rgba(248, 250, 252, 0.98);
-        }
-        .arcade-container {
-            width: 100%;
-            max-width: 1024px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .arcade-bar {
-            background: rgba(0,0,0,0.2);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .arcade-title-text {
-            font-family: monospace;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--accent-cyan);
-            letter-spacing: 0.05em;
-        }
-        .overlay-close-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 6px 14px;
-            font-family: monospace;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-        .iframe-viewport-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* Fixed aspect ratio execution matrix */
-            background: #000;
-        }
-        #arcade-frame {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: none;
-        }
-
-        /* --- REPOSITORY ACTIVITY MATRIX --- */
-        .activity-grid-wrap {
-            display: grid; grid-template-columns: 1fr; gap: 16px; background: var(--bg-card);
-            border: 1px solid var(--border-color); padding: 24px; border-radius: 12px;
-        }
+        /* --- SUB SYSTEMS & ANALYTICS --- */
+        .activity-grid-wrap { display: grid; grid-template-columns: 1fr; gap: 16px; background: var(--bg-card); border: 1px solid var(--border-color); padding: 24px; border-radius: 12px; }
         .activity-header-meta { display: flex; justify-content: space-between; align-items: center; }
         .grid-matrix-container { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
         .grid-col { display: flex; flex-direction: column; gap: 4px; }
         .grid-cell { width: 11px; height: 11px; background: rgba(255,255,255,0.03); border-radius: 2px; }
-        body.light-theme .grid-cell { background: rgba(0,0,0,0.05); }
         .grid-cell.fill-1 { background: var(--grid-green-low); }
         .grid-cell.fill-2 { background: var(--grid-green); opacity: 0.7; }
         .grid-cell.fill-3 { background: var(--grid-green); }
 
-        /* --- CONSOLE SYSTEM DRAWER --- */
-        .console-drawer {
-            position: fixed; bottom: 0; left: 0; right: 0; background: var(--console-bg);
-            border-top: 1px solid var(--border-color); font-family: monospace; font-size: 0.78rem;
-            z-index: 100; transform: translateY(calc(100% - 36px)); transition: transform 0.2s ease;
-        }
+        .console-drawer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--console-bg); border-top: 1px solid var(--border-color); font-family: monospace; font-size: 0.78rem; z-index: 100; transform: translateY(calc(100% - 36px)); transition: transform 0.2s ease; }
         .console-drawer.open { transform: translateY(0); }
-        .console-header {
-            background: rgba(0, 0, 0, 0.15); padding: 8px 24px; display: flex;
-            justify-content: space-between; align-items: center; cursor: pointer; color: var(--accent-slate);
-        }
-        .console-logs {
-            height: 140px; overflow-y: auto; padding: 16px 24px; margin: 0; list-style: none; color: #22c55e;
-        }
+        .console-header { background: rgba(0, 0, 0, 0.15); padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--accent-slate); }
+        .console-logs { height: 140px; overflow-y: auto; padding: 16px 24px; margin: 0; list-style: none; color: #22c55e; }
         .console-logs li { margin-bottom: 6px; }
 
-        footer {
-            margin-top: 80px; padding-top: 30px; padding-bottom: 80px; 
-            font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color);
-            display: flex; justify-content: space-between; gap: 16px;
-        }
-
-        /* --- LAYOUT BREAKPOINTS --- */
-        @media (max-width: 900px) {
-            .search-wrapper { flex-direction: column; align-items: flex-start; }
-            .search-container { max-width: 100%; }
-        }
-        @media (max-width: 767px) {
-            .zdg-monogram { font-size: 4rem; }
-            .zdg-fulltext { font-size: 1.1rem; }
-            .zdg-subtext { font-size: 0.9rem; }
-            header { padding-top: 40px; }
-            .header-main h1 { font-size: 1.9rem; }
-            .button-group { flex-direction: column; }
-            footer { flex-direction: column; align-items: flex-start; }
-            .search-hint { display: none; }
-            .arcade-container { border-radius: 0; }
-            #arcade-overlay { padding: 0; }
-        }
+        footer { margin-top: 80px; padding-top: 30px; padding-bottom: 80px; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; gap: 16px; }
     </style>
 </head>
 <body>
@@ -465,18 +184,6 @@
             <h1 class="zdg-monogram">ZDG</h1>
             <div class="zdg-fulltext"><span>Z</span>ERRØDEV <span>G</span>AMES</div>
             <div class="zdg-subtext">Portfolio Hub</div>
-        </div>
-    </div>
-
-    <div id="arcade-overlay">
-        <div class="arcade-container">
-            <div class="arcade-bar">
-                <span class="arcade-title-text" id="arcade-current-title">EXECUTE // RUNTIME_MODULE</span>
-                <button class="overlay-close-btn" onclick="closeArcadeViewport()">[ TERMINATE_PROCESS ]</button>
-            </div>
-            <div class="iframe-viewport-wrapper">
-                <iframe id="arcade-frame" src="about:blank" allow="autoplay; fullscreen; keyboard" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
-            </div>
         </div>
     </div>
 
@@ -516,27 +223,22 @@
 
     <div class="search-wrapper">
         <div class="search-container">
-            <div class="search-icon"></div>
             <input type="text" id="project-search" class="search-input" placeholder="Search parameters...">
-            <div class="search-hint">/</div>
         </div>
         <div class="filter-tags-track">
-            <div class="filter-pill active" data-filter="all">All Systems <span id="count-all"></span></div>
-            <div class="filter-pill" data-filter="c#">Unity / C# <span id="count-c#"></span></div>
-            <div class="filter-pill" data-filter="android">Android <span id="count-android"></span></div>
-            <div class="filter-pill" data-filter="web">Web <span id="count-web"></span></div>
+            <div class="filter-pill active" id="pill-portfolio" onclick="showPortfolioView()">Portfolio Hub</div>
+            <button class="arcade-portal-trigger" id="pill-arcade" onclick="showArcadeView()">🕹️ [ Open Arcade Portal ]</button>
         </div>
     </div>
 
-    <div class="no-results-wrap" id="no-results-msg">Terminal query returned empty stack trace. Press [Esc] to clear filters.</div>
-
-    <section class="category-section" data-sec="media">
+    <!-- MAIN PORTFOLIO VIEW MASK -->
+    <section class="category-section" id="portfolio-main-section">
         <div class="category-title">
             <span>Interactive Media Modules</span>
             <div class="category-tag">02 COMPILED</div>
         </div>
         <div class="container">
-            <div class="game-card" data-tags="web c# unity backend simulation">
+            <div class="game-card">
                 <div>
                     <div class="card-meta">
                         <span class="meta-label">ENGINE // 2.5D SIM</span>
@@ -548,21 +250,19 @@
                         <li><strong>System Layout:</strong> Multi-layered, dynamic cockpit configuration layers.</li>
                         <li><strong>Core Systems:</strong> Interactive idle resource optimization math matrix.</li>
                     </ul>
-                    
                     <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
                     <div class="tech-spec-panel">
                         <div class="spec-row"><span>Graphics Pipeline</span><span class="spec-v">WebGL 2.0 / Canvas</span></div>
                         <div class="spec-row"><span>State Machine</span><span class="spec-v">C# Thread Pools</span></div>
-                        <div class="spec-row"><span>Network Frame</span><span class="spec-v">JSON WebSocket Sync</span></div>
                     </div>
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-cyan" onclick="launchArcadeViewport('Nebula Strike 3D', 'https://gabrielecirulli.github.io/2048/')">Launch Runtime</button>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-indigo" target="_blank">Launch Project Link</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
 
-            <div class="game-card" data-tags="web c# unity retro math automation">
+            <div class="game-card">
                 <div>
                     <div class="card-meta">
                         <span class="meta-label">ENGINE // ARCADE</span>
@@ -574,18 +274,53 @@
                         <li><strong>State Handling:</strong> Vector-based flight mechanics and calculation loops.</li>
                         <li><strong>Automation:</strong> Threaded backend automation background loops.</li>
                     </ul>
-
                     <button class="tech-toggle">⚙️ [ SYSTEM ARCHITECTURE ]</button>
                     <div class="tech-spec-panel">
                         <div class="spec-row"><span>Graphics Pipeline</span><span class="spec-v">WebGL 1.0 Legacy</span></div>
-                        <div class="spec-row"><span>Math Vectoring</span><span class="spec-v">Floating Point Array</span></div>
-                        <div class="spec-row"><span>Storage Save</span><span class="spec-v">Local DOM Buffer</span></div>
                     </div>
                 </div>
                 <div class="button-group">
-                    <button class="btn btn-cyan" onclick="launchArcadeViewport('Nebula Strike (Legacy)', 'https://hextris.io/hextris/')">Launch Runtime</button>
+                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-indigo" target="_blank">Launch Project Link</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: STANDALONE FRIV WEB GAME ENGINE MATRIX -->
+    <section class="category-section" id="arcade-portal-section">
+        <div class="category-title">
+            <span>Integrated Web Game Matrix</span>
+            <div class="category-tag">FRIV STACK DIRECTORY</div>
+        </div>
+
+        <!-- Inline Live Viewport Module -->
+        <div id="portal-runtime-panel">
+            <div class="runtime-control-bar">
+                <span class="runtime-title" id="runtime-active-title">RUNTIME ENGINE: IDLE</span>
+                <button class="close-runtime-btn" onclick="terminatePortalEngine()">[ TERMINATE EMULATION ]</button>
+            </div>
+            <div class="viewport-container">
+                <iframe id="portal-frame" src="about:blank" allow="autoplay; fullscreen; keyboard" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+            </div>
+        </div>
+
+        <div class="friv-grid">
+            <div class="friv-tile" onclick="bootPortalEngine('2048 Puzzle', 'https://gabrielecirulli.github.io/2048/')">
+                <div class="friv-icon">🔢</div>
+                <div class="friv-name">2048 Engine</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Hextris Rotation', 'https://hextris.io/hextris/')">
+                <div class="friv-icon">🔷</div>
+                <div class="friv-name">Hextris</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Snake Emulation', 'https://thesnakegame.github.io/')">
+                <div class="friv-icon">🐍</div>
+                <div class="friv-name">Classic Snake</div>
+            </div>
+            <div class="friv-tile" onclick="bootPortalEngine('Pacman Simulation', 'https://pacman.live/play.html')">
+                <div class="friv-icon">🟡</div>
+                <div class="friv-name">Pacman Web</div>
             </div>
         </div>
     </section>
@@ -598,7 +333,6 @@
         <div class="activity-grid-wrap">
             <div class="activity-header-meta">
                 <span style="font-size: 0.9rem; font-weight: 700; font-family: monospace;">Ecosystem Contributions Matrix</span>
-                <span style="font-size: 0.75rem; color: var(--accent-slate); font-family: monospace;">Total Commits Checked: 1,482</span>
             </div>
             <div class="grid-matrix-container" id="grid-matrix-target"></div>
         </div>
@@ -606,7 +340,6 @@
 
     <footer>
         <div>&copy; 2026 Z3RR0_DEV.GAMES. All rights reserved.</div>
-        <div>System Thread: Production Stack Stable</div>
     </footer>
 
     <div class="console-drawer" id="terminal-drawer">
@@ -614,84 +347,68 @@
             <span>⚡ SYSTEM CONSOLE LAYER // ACTIVE</span>
             <span id="terminal-indicator">[ OPEN ]</span>
         </div>
-        <ul class="console-logs" id="log-target">
-            <li>[INFO] Domain network context localized to Z3RR0_DEV.GAMES.</li>
-            <li>[INFO] Splash system entry pipeline executed seamlessly.</li>
-        </ul>
+        <ul class="console-logs" id="log-target"></ul>
     </div>
 
     <script>
-        const searchInput = document.getElementById('project-search');
-        const filterPills = document.querySelectorAll('.filter-pill');
-        const cards = document.querySelectorAll('.game-card');
-        const sections = document.querySelectorAll('.category-section');
         const logTarget = document.getElementById('log-target');
-        let activeTag = 'all';
 
-        // --- SPLASH LAYER INTERACTION CONTROL ---
         window.addEventListener('DOMContentLoaded', () => {
             generateActivityMatrix();
-            recalculatePillCounts();
-            
-            // Lock splash open for exactly 3 seconds, then drop layer opacity smoothly
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
                 splash.style.visibility = 'hidden';
-                
-                // Unlock body scroll once clear
                 document.body.style.overflowY = 'auto';
-                document.body.style.overflowX = 'hidden';
-                appendLog("Splash layer pipeline detached. Core viewport focus unlinked.");
+                appendLog("Main environment initialization finalized.");
             }, 3000);
         });
 
         function appendLog(text) {
             const li = document.createElement('li');
-            const time = new Date().toTimeString().split(' ')[0];
-            li.textContent = `[USER_EVENT ${time}] ${text}`;
+            li.textContent = `[SYSTEM] ${text}`;
             logTarget.appendChild(li);
             logTarget.scrollTop = logTarget.scrollHeight;
         }
 
-        // ================= ARCADE VIEWPORT FRAME ENGINE MAPPING =================
-        function launchArcadeViewport(gameTitle, gameUrl) {
-            appendLog(`Initializing execution loop for asset module: [${gameTitle.toUpperCase()}]`);
-            
-            document.getElementById('arcade-current-title').innerText = `EXECUTE // RUNTIME_MODULE: ${gameTitle.toUpperCase()}`;
-            
-            const frame = document.getElementById('arcade-frame');
-            frame.src = gameUrl;
-            
-            document.getElementById('arcade-overlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Force freeze background scrolling viewport
+        /* --- MODE DISPLAY LOGIC SWITCHES --- */
+        function showPortfolioView() {
+            document.getElementById('portfolio-main-section').style.display = 'block';
+            document.getElementById('arcade-portal-section').style.display = 'none';
+            document.getElementById('pill-portfolio').classList.add('active');
+            terminatePortalEngine();
+            appendLog("Switched primary framework focus to Project Portfolio.");
         }
 
-        function closeArcadeViewport() {
-            appendLog("Interrupt signal received. Terminating runtime frame execution pipeline.");
-            
-            const frame = document.getElementById('arcade-frame');
-            frame.src = 'about:blank'; // Destroy active page processing script/audio context
-            
-            document.getElementById('arcade-overlay').style.display = 'none';
-            document.body.style.overflowY = 'auto'; // Restore grid interaction scroll rules
-            document.body.style.overflowX = 'hidden';
+        function showArcadeView() {
+            document.getElementById('portfolio-main-section').style.display = 'none';
+            document.getElementById('arcade-portal-section').style.display = 'block';
+            document.getElementById('pill-portfolio').classList.remove('active');
+            appendLog("Switched workspace configuration to Integrated Web Game Matrix Portal.");
         }
 
-        // --- RENDER DYNAMIC ACTIVITY GRID CELLS ---
+        /* --- PORTAL ENGINE SIMULATION CONTROL --- */
+        function bootPortalEngine(name, url) {
+            appendLog(`Mounting virtual instance frame for sandbox module: ${name}`);
+            document.getElementById('portal-runtime-panel').style.display = 'block';
+            document.getElementById('runtime-active-title').innerText = `RUNTIME EMULATION ENGINE // EXECUTING: ${name.toUpperCase()}`;
+            document.getElementById('portal-frame').src = url;
+            window.scrollTo({ top: document.getElementById('portal-runtime-panel').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function terminatePortalEngine() {
+            document.getElementById('portal-runtime-panel').style.display = 'none';
+            document.getElementById('portal-frame').src = 'about:blank';
+        }
+
         function generateActivityMatrix() {
             const target = document.getElementById('grid-matrix-target');
-            target.innerHTML = '';
-            
-            // Render 28 columns across widescreen viewports
             for (let i = 0; i < 28; i++) {
                 const col = document.createElement('div');
                 col.className = 'grid-col';
-                
-                // 7 days per column
                 for (let j = 0; j < 7; j++) {
                     const cell = document.createElement('div');
-                    const fillValue = Math.floor(Math.random() * 4); // 0 to 3 density array
+                    const fillValue = Math.floor(Math.random() * 4);
                     cell.className = fillValue > 0 ? `grid-cell fill-${fillValue}` : 'grid-cell';
                     col.appendChild(cell);
                 }
@@ -699,107 +416,24 @@
             }
         }
 
-        function recalculatePillCounts() {
-            let tallies = { all: 0, 'c#': 0, android: 0, web: 0 };
-            cards.forEach(card => {
-                if (card.classList.contains('edition-tool')) return;
-                const tags = card.getAttribute('data-tags') || '';
-                tallies.all++;
-                if (tags.includes('c#')) tallies['c#']++;
-                if (tags.includes('android')) tallies.android++;
-                if (tags.includes('web')) tallies.web++;
-            });
-            for (let key in tallies) {
-                const badge = document.getElementById(`count-${key}`);
-                if (badge) badge.innerText = `(${tallies[key]})`;
-            }
-        }
-
-        function filterMatrix() {
-            const textQuery = searchInput.value.toLowerCase().trim();
-            let visibleUnits = 0;
-
-            cards.forEach(card => {
-                const cardData = (card.getAttribute('data-tags') || '') + ' ' + card.textContent.toLowerCase();
-                const matchesText = cardData.includes(textQuery);
-                const matchesTag = (activeTag === 'all') || cardData.includes(activeTag);
-
-                if (matchesText && matchesTag) {
-                    card.style.display = 'flex';
-                    if(!card.classList.contains('edition-tool')) visibleUnits++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            sections.forEach(sec => {
-                const innerActive = sec.querySelectorAll('.game-card:not([style*="display: none"])');
-                sec.style.display = (innerActive.length === 0) ? 'none' : 'block';
-            });
-
-            document.getElementById('no-results-msg').style.display = (visibleUnits === 0 && textQuery !== '') ? 'block' : 'none';
-        }
-
-        searchInput.addEventListener('input', () => filterMatrix());
-
-        filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                filterPills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                activeTag = pill.getAttribute('data-filter');
-                appendLog(`Applied view mask: [${activeTag.toUpperCase()}]`);
-                filterMatrix();
-            });
-        });
-
-        // Toggle dropdown architectures 
         document.querySelectorAll('.tech-toggle').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const panel = e.target.nextElementSibling;
-                panel.classList.toggle('expanded');
-                appendLog("Altered metadata structural visibility dropdown matrix.");
+                e.target.nextElementSibling.classList.toggle('expanded');
             });
         });
-
-        document.getElementById('share-btn').addEventListener('click', function() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const textNode = document.getElementById('share-text');
-                textNode.innerText = "Copied!";
-                appendLog("URL link structured inside desktop clipboard.");
-                setTimeout(() => { textNode.innerText = "Share Link"; }, 2000);
-            });
-        });
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === '/' && document.activeElement !== searchInput) {
-                e.preventDefault(); searchInput.focus(); searchInput.select();
-            }
-            if (e.key === 'Escape') {
-                if (document.getElementById('arcade-overlay').style.display === 'flex') {
-                    closeArcadeViewport();
-                } else {
-                    searchInput.value = ''; filterMatrix(); searchInput.blur();
-                }
-            }
-        });
-
-        const pingText = document.getElementById('ping-text');
-        setInterval(() => {
-            const simulatedPing = Math.floor(Math.random() * 12) + 14;
-            pingText.innerText = `LIVE // ${simulatedPing}ms`;
-        }, 4000);
 
         document.getElementById('theme-btn').addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
-            appendLog(`System environment canvas color matrix shifted.`);
         });
 
         const drawer = document.getElementById('terminal-drawer');
-        const indicator = document.getElementById('terminal-indicator');
         document.getElementById('terminal-header').addEventListener('click', () => {
             drawer.classList.toggle('open');
-            indicator.innerText = drawer.classList.contains('open') ? "[ MINIMIZE ]" : "[ OPEN ]";
         });
+
+        setInterval(() => {
+            document.getElementById('ping-text').innerText = `LIVE // ${Math.floor(Math.random() * 12) + 14}ms`;
+        }, 4000);
     </script>
 </body>
 </html>
