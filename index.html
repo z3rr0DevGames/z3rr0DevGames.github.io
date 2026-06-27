@@ -82,7 +82,7 @@
         .zdg-subtext { font-size: 1.4rem; font-weight: 500; letter-spacing: 0.45em; color: #cccccc; margin-top: 6px; text-transform: uppercase; padding-left: 0.45em; }
 
         @keyframes flashText { 0% { opacity: 0; } 10% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
-        @keyframes revealLogo { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+        @keyframes revealLogo { 0% { opacity: 0; transform: scale(0.96); filter: blur(4px); filter: blur(0); } }
 
         /* --- CORE INTERFACE LAYOUT --- */
         header, .telemetry-dashboard, .search-wrapper, .category-section, footer, .no-results-wrap {
@@ -140,7 +140,7 @@
         .btn-indigo { background-color: var(--accent-indigo); color: #fff; }
         .btn-slate { background-color: rgba(255, 255, 255, 0.04); color: var(--text-primary); border: 1px solid var(--border-color); }
 
-        /* ================= NEW: FRIV ARCADE PORTAL VIEW MODE ================= */
+        /* ================= FRIV ARCADE PORTAL VIEW MODE ================= */
         #arcade-portal-section { display: none; margin-top: 20px; margin-bottom: 40px; }
         .friv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
         .friv-tile { background: var(--bg-card); border: 1px solid var(--border-color); aspect-ratio: 1 / 1; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; text-align: center; padding: 10px; box-sizing: border-box; transition: transform 0.15s ease, border-color 0.15s ease; }
@@ -257,7 +257,7 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-indigo" target="_blank">Launch Project Link</a>
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike-3d" class="btn btn-indigo" target="_blank">Launch Runtime</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
@@ -280,14 +280,14 @@
                     </div>
                 </div>
                 <div class="button-group">
-                    <a href="https://discord.gg/NbsZ48aecM" class="btn btn-indigo" target="_blank">Launch Project Link</a>
+                    <a href="https://z3rr0-devgames.itch.io/nebula-strike" class="btn btn-indigo" target="_blank">Launch Runtime</a>
                     <a href="https://discord.gg/NbsZ48aecM" class="btn btn-slate" target="_blank">Join Discord</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- NEW: STANDALONE FRIV WEB GAME ENGINE MATRIX -->
+    <!-- STANDALONE FRIV WEB GAME ENGINE MATRIX -->
     <section class="category-section" id="arcade-portal-section">
         <div class="category-title">
             <span>Integrated Web Game Matrix</span>
